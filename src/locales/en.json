@@ -1,0 +1,8 @@
+{
+  "welcome": "Welcome to the Fullbay application!",
+  "main": {
+    "theme": {
+      "dark": "Dark"
+    }
+  }
+}

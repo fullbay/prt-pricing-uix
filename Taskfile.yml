@@ -1,0 +1,169 @@
+version: "3"
+
+tasks:
+  default: task --list-all
+
+  build-for:*:
+    requires:
+      vars: [SHORT_SHA, AWS_CODEARTIFACT_TOKEN]
+    vars:
+      ENV: "{{index .MATCH 0}}"
+      BUILD_DIR: "{{.ROOT_DIR}}/dist_{{.ENV}}"
+    cmds:
+      - echo 'Building for environment {{.ENV}}...'
+      - pnpm vite build --mode {{.ENV}} --outDir {{.BUILD_DIR}}
+      - cd {{.BUILD_DIR}} && zip -r {{.ROOT_DIR}}/output/{{.ENV}}.zip .
+      - ls {{.ROOT_DIR}}/output
+
+  build:
+    requires:
+      vars: [SHORT_SHA, AWS_CODEARTIFACT_TOKEN]
+    cmds:
+      - pnpm install @rollup/rollup-linux-x64-musl
+      - pnpm install --frozen-lockfile
+      - pnpm tsc
+      - mkdir -p {{.ROOT_DIR}}/output
+      - task build-for:local_dev
+      - task build-for:dev
+      - task build-for:qa
+      - task build-for:stage
+      - task build-for:prod
+      - rm -rf {{.ROOT_DIR}}/dist && mkdir {{.ROOT_DIR}}/dist
+      - cp {{.ROOT_DIR}}/output/*.zip {{.ROOT_DIR}}/dist
+      - cp {{.ROOT_DIR}}/sherpa/sherpa.yml {{.ROOT_DIR}}/dist/sherpa.yml
+      - ls {{.ROOT_DIR}}/dist
+
+  local-build-and-test:
+    desc: run the local build
+    env:
+      AWS_CODEARTIFACT_TOKEN:
+        sh: aws codeartifact get-authorization-token
+          --profile fb-common-non-prod/Repository-ReadOnly
+          --domain fullbay
+          --domain-owner 851725176053
+          --region us-west-2
+          --query authorizationToken
+          --output text
+      FONT_AWESOME_AUTH_TOKEN: D8034AE3-7A7D-499E-82F5-2550AAE86F79
+    cmds:
+      - pnpm install
+      - pnpm tsc
+      - pnpm vite build --mode dev
+      - pnpm run lint
+      - pnpm run test
+
+  container-build-and-test:
+    desc: run the local build just like it does in harness
+    vars:
+      SHERPA_CONFIG:
+        sh: cat "{{.ROOT_DIR}}"/sherpa/sherpa.yml
+      PARSED_SHERPA_CONFIG:
+        ref: "fromYaml .SHERPA_CONFIG"
+    env:
+      AWS_CODEARTIFACT_TOKEN:
+        sh: aws codeartifact get-authorization-token
+          --profile fb-common-non-prod/Repository-ReadOnly
+          --domain fullbay
+          --domain-owner 851725176053
+          --region us-west-2
+          --query authorizationToken
+          --output text
+      CMD: "task build"
+      FONT_AWESOME_AUTH_TOKEN: D8034AE3-7A7D-499E-82F5-2550AAE86F79
+      SHORT_SHA: '{{.SHORT_SHA | default "none"}}'
+    cmds:
+      - rm -rf {{.ROOT_DIR}}/node_modules
+      - aws ecr get-login-password
+        --region us-west-2
+        --profile fb-ops-idp-prod/Repository-ReadOnly
+        | docker login --username AWS --password-stdin 533267115767.dkr.ecr.us-west-2.amazonaws.com
+      - docker run --rm
+        -v "{{.ROOT_DIR}}:/harness"
+        -w /harness
+        -e AWS_CODEARTIFACT_TOKEN
+        -e FONT_AWESOME_AUTH_TOKEN
+        -e SHORT_SHA={{.SHORT_SHA}}
+        {{.PARSED_SHERPA_CONFIG.build.image}}
+        sh -c "task build"
+
+  lf:
+    desc: run install, lint:fix, format:fix
+    env:
+      AWS_CODEARTIFACT_TOKEN:
+        sh: aws codeartifact get-authorization-token
+          --profile fb-common-non-prod/Repository-ReadOnly
+          --domain fullbay
+          --domain-owner 851725176053
+          --region us-west-2
+          --query authorizationToken
+          --output text
+      FONT_AWESOME_AUTH_TOKEN: D8034AE3-7A7D-499E-82F5-2550AAE86F79
+    cmds:
+      - pnpm install
+      - pnpm run lint:fix
+      - pnpm run format:fix
+
+  b:
+    desc: run install, build
+    env:
+      AWS_CODEARTIFACT_TOKEN:
+        sh: aws codeartifact get-authorization-token
+          --profile fb-common-non-prod/Repository-ReadOnly
+          --domain fullbay
+          --domain-owner 851725176053
+          --region us-west-2
+          --query authorizationToken
+          --output text
+      FONT_AWESOME_AUTH_TOKEN: D8034AE3-7A7D-499E-82F5-2550AAE86F79
+    cmds:
+      - pnpm install
+      - pnpm run build
+
+  t:
+    desc: run install, build
+    env:
+      AWS_CODEARTIFACT_TOKEN:
+        sh: aws codeartifact get-authorization-token
+          --profile fb-common-non-prod/Repository-ReadOnly
+          --domain fullbay
+          --domain-owner 851725176053
+          --region us-west-2
+          --query authorizationToken
+          --output text
+      FONT_AWESOME_AUTH_TOKEN: D8034AE3-7A7D-499E-82F5-2550AAE86F79
+    cmds:
+      - pnpm install
+      - pnpm run build
+      - pnpm run test
+
+  p:
+    desc: run install, build, preview
+    env:
+      AWS_CODEARTIFACT_TOKEN:
+        sh: aws codeartifact get-authorization-token
+          --profile fb-common-non-prod/Repository-ReadOnly
+          --domain fullbay
+          --domain-owner 851725176053
+          --region us-west-2
+          --query authorizationToken
+          --output text
+      FONT_AWESOME_AUTH_TOKEN: D8034AE3-7A7D-499E-82F5-2550AAE86F79
+    cmds:
+      - pnpm install
+      - pnpm run build
+      - pnpm run preview
+
+  i:
+    desc: run install, build, preview
+    env:
+      AWS_CODEARTIFACT_TOKEN:
+        sh: aws codeartifact get-authorization-token
+          --profile fb-common-non-prod/Repository-ReadOnly
+          --domain fullbay
+          --domain-owner 851725176053
+          --region us-west-2
+          --query authorizationToken
+          --output text
+      FONT_AWESOME_AUTH_TOKEN: D8034AE3-7A7D-499E-82F5-2550AAE86F79
+    cmds:
+      - pnpm install

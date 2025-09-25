@@ -1,0 +1,3 @@
+build:
+  image: "533267115767.dkr.ecr.us-west-2.amazonaws.com/idp-builder/node:2d9f310"
+  cmd: "task build"
