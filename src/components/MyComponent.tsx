@@ -1,3 +1,4 @@
+import PartsPricingScales from "@features/PartsPricingScales/Dashboard.tsx";
 import { FBIcon, FBSpinner } from "@fullbay/forge";
 import { useStytchSession } from "@src/hooks/auth/useStytchSession";
 import React from "react";
@@ -17,18 +18,18 @@ const MyComponent: React.FC = () => {
               <FBIcon
                 iconName="wrench"
                 dataFbTestId="loading"
-                ariaLabel={"Checking authentication..."}
+                ariaLabel={t("authentication.checkingSession")}
                 iconSize={32}
               />
             }
           />
-          <p className="mt-2">Checking authentication...</p>
+          <p className="mt-2">{t("authentication.checkingSession")}</p>
         </div>
       </div>
     );
   }
 
-  return <div>{t("welcome")}</div>;
+  return <PartsPricingScales />;
 };
 
 export default MyComponent;

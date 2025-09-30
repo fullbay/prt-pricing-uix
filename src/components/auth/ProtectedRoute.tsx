@@ -1,6 +1,7 @@
 import { useStytchSession } from "@src/hooks/auth/useStytchSession";
 import { getAuthUrl } from "@src/utils/environment";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { LoadingSpinner } from "./LoadingSpinner";
 
@@ -10,6 +11,7 @@ export interface ProtectedRouteProps {
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isValid, loading } = useStytchSession();
+  const { t } = useTranslation();
 
   const authUrl = getAuthUrl();
 
@@ -35,7 +37,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     return (
       <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center px-4">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
-          <p className="text-gray-600">Access Denied</p>
+          <p className="text-gray-600">
+            {t("authentication.checkValidSession")}
+          </p>
         </div>
       </div>
     );
@@ -47,7 +51,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center">
             <LoadingSpinner size="lg" className="mb-4" />
-            <p className="text-gray-600">Checking session...</p>
+            <p className="text-gray-600">
+              {t("authentication.checkValidSession")}
+            </p>
           </div>
         </div>
       </div>
@@ -60,7 +66,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="max-w-md bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
           <LoadingSpinner size="lg" className="mb-4" />
-          <p className="text-gray-600">Redirecting to login...</p>
+          <p className="text-gray-600">
+            {t("authentication.redirectingToLogin")}
+          </p>
         </div>
       </div>
     );
