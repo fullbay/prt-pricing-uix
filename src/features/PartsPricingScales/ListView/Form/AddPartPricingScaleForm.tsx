@@ -30,18 +30,6 @@ const defaultFormData: Partial<PartsPricingScale> = {
   calculatedBasedOn: "markup",
   tiers: [
     {
-      minAmount: 1,
-      percent: 30,
-    },
-    {
-      minAmount: 10,
-      percent: 50,
-    },
-    {
-      minAmount: 11,
-      percent: 40,
-    },
-    {
       minAmount: 0,
       percent: 0,
     },
@@ -177,6 +165,7 @@ export const AddPartPricingScaleForm: React.FC<
         calculatedBasedOn: formData.calculatedBasedOn!,
         tiers: formData.tiers!,
       };
+      console.log(input);
       addPartPricingScale(input);
       onSuccess?.();
     } catch (error) {
