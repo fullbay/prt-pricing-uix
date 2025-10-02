@@ -36,7 +36,7 @@ const defaultFormData: Partial<PartsPricingScale> = {
   ],
 };
 
-const defaultNewTearData: PartsPricingScaleTier = {
+const defaultNewTierData: PartsPricingScaleTier = {
   minAmount: 0,
   percent: 0,
 };
@@ -49,7 +49,7 @@ export const AddPartPricingScaleForm: React.FC<
   const [formData, setFormData] =
     useState<Partial<PartsPricingScale>>(defaultFormData);
   const [newTierData, setNewTierData] =
-    useState<PartsPricingScaleTier>(defaultNewTearData);
+    useState<PartsPricingScaleTier>(defaultNewTierData);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const tiersList = useMemo(() => {
@@ -146,7 +146,7 @@ export const AddPartPricingScaleForm: React.FC<
       ...prev,
       tiers: [...prev.tiers!, newTierData],
     }));
-    setNewTierData(defaultNewTearData);
+    setNewTierData(defaultNewTierData);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
