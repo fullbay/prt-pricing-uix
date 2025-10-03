@@ -33,20 +33,29 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }, [loading, isValid, authUrl]);
 
   if (!loading && !isValid) {
-    return <AuthMessageScreen message={t("authentication.checkValidSession")} />;
+    return (
+      <AuthMessageScreen message={t("authentication.checkValidSession")} />
+    );
   }
 
   if (loading) {
-    return <AuthMessageScreen message={t("authentication.checkValidSession")} showSpinner />;
+    return (
+      <AuthMessageScreen
+        message={t("authentication.checkValidSession")}
+        showSpinner
+      />
+    );
   }
 
   if (!isValid) {
     // This state should be temporary - we're redirecting to IDP app
-    return <AuthMessageScreen
-      message={t("authentication.redirectingToLogin")}
-      showSpinner
-      maxWidth="md"
-    />;
+    return (
+      <AuthMessageScreen
+        message={t("authentication.redirectingToLogin")}
+        showSpinner
+        maxWidth="md"
+      />
+    );
   }
 
   return <>{children}</>;

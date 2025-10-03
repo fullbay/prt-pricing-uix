@@ -4,9 +4,13 @@ type AuthMessageScreenProps = {
   message: string;
   showSpinner?: boolean;
   maxWidth?: "md";
-}
+};
 
-export const AuthMessageScreen = ({ message, showSpinner, maxWidth }: AuthMessageScreenProps) => {
+export const AuthMessageScreen = ({
+  message,
+  showSpinner,
+  maxWidth,
+}: AuthMessageScreenProps) => {
   return (
     <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center px-4">
       <div

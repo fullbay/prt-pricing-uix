@@ -1,4 +1,5 @@
 import FBInputWithStartIcon from "@components/FBInputWithStartIcon.tsx";
+import { TierListItem } from "@features/PartsPricingScales/ListView/Form/TierListItem.tsx";
 import {
   NewPartsPricingScale,
   PartsPricingScale,
@@ -15,7 +16,7 @@ import {
   FBSheetClose,
   FBSheetFooter,
 } from "@fullbay/forge";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 type AddPartPricingScaleFormProps = {
@@ -52,6 +53,24 @@ export const AddPartPricingScaleForm: React.FC<
     useState<PartsPricingScaleTier>(defaultNewTierData);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const onUpdateTier = useCallback(
+    (index: number, percent: number) => {
+      const newTiers = [...(formData.tiers ?? [])];
+      newTiers[index].percent = percent;
+      setFormData((prev) => ({ ...prev, tiers: newTiers }));
+    },
+    [formData.tiers]
+  );
+
+  const onRemoveTier = useCallback(
+    (index: number) => {
+      const newTiers = [...(formData.tiers ?? [])];
+      newTiers.splice(index, 1);
+      setFormData((prev) => ({ ...prev, tiers: newTiers }));
+    },
+    [formData.tiers]
+  );
+
   const tiersList = useMemo(() => {
     return formData.tiers
       ?.sort((a, b) => Number(a.minAmount) - Number(b.minAmount))
@@ -73,63 +92,21 @@ export const AddPartPricingScaleForm: React.FC<
         }
 
         return (
-          <>
-            <hr className="col-span-6" />
-            <div className="col-span-3 content-center ps-4">
-              {conditionText}
-            </div>
-            <div className="col-span-2">
-              <FBInputWithStartIcon
-                className="text-end"
-                type="number"
-                id={"part-pricing-scale-tier-percent-" + index}
-                dataFbTestId={"part-pricing-scale-tier-percent-" + index}
-                value={tier.percent}
-                min={0}
-                step={0.01}
-                required
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  const newTiers = [...formData.tiers!];
-                  newTiers[index].percent = Number(e.target.value);
-                  setFormData((prev) => ({ ...prev, tiers: newTiers }));
-                }}
-                icon={
-                  <FBIcon
-                    iconName="percent"
-                    ariaLabel="Percent Icon"
-                    dataFbTestId={
-                      "part-pricing-scale-tier-percent-icon-" + index
-                    }
-                  />
-                }
-              />
-            </div>
-            <div>
-              {index !== 0 && (
-                <FBButton
-                  type="button"
-                  dataFbTestId={"part-pricing-scale-tier-remove-" + index}
-                  variant="ghost"
-                  onClick={() => {
-                    const newTiers = [...formData.tiers!];
-                    newTiers.splice(index, 1);
-                    setFormData((prev) => ({ ...prev, tiers: newTiers }));
-                  }}
-                >
-                  <FBIcon
-                    ariaLabel="Remove Tier"
-                    dataFbTestId={
-                      "part-pricing-scale-tier-remove-icon-" + index
-                    }
-                    iconName="delete"
-                  />
-                </FBButton>
-              )}
-            </div>
-          </>
+          <TierListItem
+            key={tier.minAmount}
+            tier={tier}
+            index={index}
+            isFirst={!index}
+            conditionText={conditionText}
+            onPercentChange={(i, value) => onUpdateTier(i, value)}
+            onRemove={(i) => {
+              console.log(i);
+              onRemoveTier(i);
+            }}
+          />
         );
       });
-  }, [formData.tiers]);
+  }, [formData.tiers, onRemoveTier, onUpdateTier]);
 
   const handleInputChange = (field: string, fieldValue: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: fieldValue }));

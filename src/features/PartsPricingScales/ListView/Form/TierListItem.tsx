@@ -1,0 +1,74 @@
+import FBInputWithStartIcon from "@components/FBInputWithStartIcon.tsx";
+import { PartsPricingScaleTier } from "@features/PartsPricingScales/ListView/List/DataGridView.tsx";
+import { FBButton, FBIcon } from "@fullbay/forge";
+import React from "react";
+import { useCallback } from "react";
+
+type TierListItemProps = {
+  tier: PartsPricingScaleTier;
+  index: number;
+  isFirst: boolean;
+  conditionText: string;
+  onPercentChange: (index: number, value: number) => void;
+  onRemove: (index: number) => void;
+};
+
+export const TierListItem: React.FC<TierListItemProps> = React.memo(
+  ({ tier, index, isFirst, conditionText, onPercentChange, onRemove }) => {
+    const handleChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        onPercentChange(index, Number(e.target.value));
+      },
+      [index, onPercentChange]
+    );
+
+    const handleRemove = useCallback(() => {
+      onRemove(index);
+    }, [index, onRemove]);
+
+    return (
+      <React.Fragment key={tier.minAmount}>
+        <hr className="col-span-6" />
+        <div className="col-span-3 content-center ps-4">{conditionText}</div>
+        <div className="col-span-2">
+          <FBInputWithStartIcon
+            className="text-end"
+            type="number"
+            id={`part-pricing-scale-tier-percent-${index}`}
+            dataFbTestId={`part-pricing-scale-tier-percent-${index}`}
+            value={tier.percent}
+            min={0}
+            step={0.01}
+            required
+            onChange={handleChange}
+            icon={
+              <FBIcon
+                iconName="percent"
+                ariaLabel="Percent Icon"
+                dataFbTestId={`part-pricing-scale-tier-percent-icon-${index}`}
+              />
+            }
+          />
+        </div>
+        <div>
+          {!isFirst && (
+            <FBButton
+              type="button"
+              dataFbTestId={`part-pricing-scale-tier-remove-${index}`}
+              variant="ghost"
+              onClick={handleRemove}
+            >
+              <FBIcon
+                ariaLabel="Remove Tier"
+                dataFbTestId={`part-pricing-scale-tier-remove-icon-${index}`}
+                iconName="delete"
+              />
+            </FBButton>
+          )}
+        </div>
+      </React.Fragment>
+    );
+  }
+);
+
+TierListItem.displayName = "TierListItem";
