@@ -1,5 +1,5 @@
 import FBInputWithStartIcon from "@components/FBInputWithStartIcon.tsx";
-import { TierListItem } from "@features/PartsPricingScales/ListView/Form/TierListItem.tsx";
+import { TierList } from "@features/PartsPricingScales/ListView/Form/TierList.tsx";
 import {
   NewPartsPricingScale,
   PartsPricingScale,
@@ -54,59 +54,28 @@ export const AddPartPricingScaleForm: React.FC<
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onUpdateTier = useCallback(
-    (index: number, percent: number) => {
+    (minAmount: number, percent: number) => {
       const newTiers = [...(formData.tiers ?? [])];
-      newTiers[index].percent = percent;
+      newTiers.map((tier) => {
+        if (tier.minAmount === minAmount) {
+          tier.percent = percent;
+        }
+        return tier;
+      });
       setFormData((prev) => ({ ...prev, tiers: newTiers }));
     },
     [formData.tiers]
   );
 
   const onRemoveTier = useCallback(
-    (index: number) => {
-      const newTiers = [...(formData.tiers ?? [])];
-      newTiers.splice(index, 1);
+    (minAmount: number) => {
+      const newTiers = (formData.tiers || []).filter(
+        (tier) => tier.minAmount !== minAmount
+      );
       setFormData((prev) => ({ ...prev, tiers: newTiers }));
     },
     [formData.tiers]
   );
-
-  const tiersList = useMemo(() => {
-    return formData.tiers
-      ?.sort((a, b) => Number(a.minAmount) - Number(b.minAmount))
-      .map((tier, index, tiers: PartsPricingScaleTier[]) => {
-        let conditionText;
-
-        if (index + 1 >= tiers.length) {
-          conditionText = `$${tier.minAmount} or greater`;
-        } else {
-          const nextTier = tiers[index + 1];
-          const minAmount = tier.minAmount;
-          const maxAmount = nextTier.minAmount - 0.01;
-
-          if (minAmount === maxAmount) {
-            conditionText = `$${minAmount}`;
-          } else {
-            conditionText = `$${minAmount} to $${maxAmount}`;
-          }
-        }
-
-        return (
-          <TierListItem
-            key={tier.minAmount}
-            tier={tier}
-            index={index}
-            isFirst={!index}
-            conditionText={conditionText}
-            onPercentChange={(i, value) => onUpdateTier(i, value)}
-            onRemove={(i) => {
-              console.log(i);
-              onRemoveTier(i);
-            }}
-          />
-        );
-      });
-  }, [formData.tiers, onRemoveTier, onUpdateTier]);
 
   const handleInputChange = (field: string, fieldValue: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: fieldValue }));
@@ -240,7 +209,13 @@ export const AddPartPricingScaleForm: React.FC<
                 : t("partsPricingScales.formLabels.percent.margin", "Margin %")}
             </div>
             <div>&nbsp;</div>
-            {tiersList}
+            <TierList
+              tiers={formData.tiers || []}
+              onUpdateTier={(minAmount, percent) =>
+                onUpdateTier(minAmount, percent)
+              }
+              onRemoveTier={(minAmount) => onRemoveTier(minAmount)}
+            />
           </div>
         </form>
 

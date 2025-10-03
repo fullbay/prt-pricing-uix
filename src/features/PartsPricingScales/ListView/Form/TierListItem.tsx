@@ -9,22 +9,22 @@ type TierListItemProps = {
   index: number;
   isFirst: boolean;
   conditionText: string;
-  onPercentChange: (index: number, value: number) => void;
-  onRemove: (index: number) => void;
+  onPercentChange: (minAmount: number, percent: number) => void;
+  onRemove: (minAmount: number) => void;
 };
 
 export const TierListItem: React.FC<TierListItemProps> = React.memo(
   ({ tier, index, isFirst, conditionText, onPercentChange, onRemove }) => {
     const handleChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
-        onPercentChange(index, Number(e.target.value));
+        onPercentChange(tier.minAmount, Number(e.target.value));
       },
-      [index, onPercentChange]
+      [tier.minAmount, onPercentChange]
     );
 
     const handleRemove = useCallback(() => {
-      onRemove(index);
-    }, [index, onRemove]);
+      onRemove(tier.minAmount);
+    }, [tier.minAmount, onRemove]);
 
     return (
       <React.Fragment key={tier.minAmount}>
