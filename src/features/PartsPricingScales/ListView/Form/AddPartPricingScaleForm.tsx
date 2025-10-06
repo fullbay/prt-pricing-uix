@@ -1,9 +1,7 @@
 import FBInputWithStartIcon from "@components/FBInputWithStartIcon.tsx";
 import { TierList } from "@features/PartsPricingScales/ListView/Form/TierList.tsx";
 import {
-  NewPartsPricingScale,
   PartsPricingScale,
-  PartsPricingScaleTier,
 } from "@features/PartsPricingScales/ListView/List/DataGridView.tsx";
 import {
   FBButton,
@@ -16,120 +14,44 @@ import {
   FBSheetClose,
   FBSheetFooter,
 } from "@fullbay/forge";
-import React, { useCallback, useMemo, useState } from "react";
+import { usePartPricingScaleForm } from "@src/hooks/usePartPricingScaleForm.ts";
+import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 type AddPartPricingScaleFormProps = {
   onSuccess?: () => void;
-  onCancel?: () => void;
-  addPartPricingScale: (input: NewPartsPricingScale) => void;
-};
-
-const defaultFormData: Partial<PartsPricingScale> = {
-  name: "",
-  isDefault: false,
-  calculatedBasedOn: "markup",
-  tiers: [
-    {
-      minAmount: 0,
-      percent: 0,
-    },
-  ],
-};
-
-const defaultNewTierData: PartsPricingScaleTier = {
-  minAmount: 0,
-  percent: 0,
+  addPartPricingScale: (input: Partial<PartsPricingScale>) => void;
 };
 
 export const AddPartPricingScaleForm: React.FC<
   AddPartPricingScaleFormProps
-> = ({ onSuccess, addPartPricingScale }) => {
+> = ({ addPartPricingScale }) => {
   const { t } = useTranslation();
 
-  const [formData, setFormData] =
-    useState<Partial<PartsPricingScale>>(defaultFormData);
-  const [newTierData, setNewTierData] =
-    useState<PartsPricingScaleTier>(defaultNewTierData);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {
+    addTierFormIsInvalid,
+    formData,
+    formIsInvalid,
+    handleAddTier,
+    handleFieldChange,
+    handleNewTierFieldChange,
+    handleRemoveTier,
+    handleSubmit,
+    handleUpdateTier,
+    isSubmitting,
+    newTierData,
+  } = usePartPricingScaleForm(addPartPricingScale);
 
-  const onUpdateTier = useCallback(
-    (minAmount: number, percent: number) => {
-      const newTiers = [...(formData.tiers ?? [])];
-      newTiers.map((tier) => {
-        if (tier.minAmount === minAmount) {
-          tier.percent = percent;
-        }
-        return tier;
-      });
-      setFormData((prev) => ({ ...prev, tiers: newTiers }));
-    },
-    [formData.tiers]
-  );
+  const refFieldNewTierMinAmount = useRef<HTMLInputElement>(null);
+  const refNewTierForm = useRef<HTMLFormElement>(null);
 
-  const onRemoveTier = useCallback(
-    (minAmount: number) => {
-      const newTiers = (formData.tiers || []).filter(
-        (tier) => tier.minAmount !== minAmount
-      );
-      setFormData((prev) => ({ ...prev, tiers: newTiers }));
-    },
-    [formData.tiers]
-  );
-
-  const handleInputChange = (field: string, fieldValue: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: fieldValue }));
+  const onAddTier = (e: React.FormEvent) => {
+    handleAddTier(e, () => refFieldNewTierMinAmount.current?.focus());
+    // Add zero delay to ensure the scrolling takes place
+    setTimeout(() => {
+      refNewTierForm.current?.scrollIntoView({ behavior: "smooth" });
+    }, 0);
   };
-
-  const handleAddTier = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (addTierFormIsInvalid) {
-      return;
-    }
-
-    setFormData((prev) => ({
-      ...prev,
-      tiers: [...prev.tiers!, newTierData],
-    }));
-    setNewTierData(defaultNewTierData);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (formIsInvalid) {
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      const input: NewPartsPricingScale = {
-        name: formData.name!,
-        isDefault: formData.isDefault!,
-        calculatedBasedOn: formData.calculatedBasedOn!,
-        tiers: formData.tiers!,
-      };
-      console.log(input);
-      addPartPricingScale(input);
-      onSuccess?.();
-    } catch (error) {
-      console.error("Failed to create Part Pricing Scale:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const formIsInvalid =
-    !formData.name || !formData.tiers || !formData.tiers.length;
-  const addTierFormIsInvalid = useMemo(() => {
-    return (
-      newTierData.minAmount <= 0 ||
-      newTierData.percent < 0 ||
-      !!formData.tiers?.find((tier) => tier.minAmount === newTierData.minAmount)
-    );
-  }, [formData.tiers, newTierData.minAmount, newTierData.percent]);
 
   return (
     <>
@@ -152,7 +74,7 @@ export const AddPartPricingScaleForm: React.FC<
               dataFbTestId="part-pricing-scale-name-input"
               value={formData.name || ""}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                handleInputChange("name", e.target.value);
+                handleFieldChange("name", e.target.value);
               }}
               required
             />
@@ -162,7 +84,7 @@ export const AddPartPricingScaleForm: React.FC<
             <FBCheckbox
               dataFbTestId="part-pricing-scale-is-default-checkbox"
               onClick={() =>
-                handleInputChange("isDefault", !formData.isDefault)
+                handleFieldChange("isDefault", !formData.isDefault)
               }
               checked={formData.isDefault}
             />
@@ -176,7 +98,7 @@ export const AddPartPricingScaleForm: React.FC<
                 value="markup"
                 checked={formData.calculatedBasedOn === "markup"}
                 onClick={() => {
-                  handleInputChange("calculatedBasedOn", "markup");
+                  handleFieldChange("calculatedBasedOn", "markup");
                 }}
                 id="part-pricing-scale-calculated-based-on-markup-checkbox"
               />
@@ -189,7 +111,7 @@ export const AddPartPricingScaleForm: React.FC<
                 value="margin"
                 checked={formData.calculatedBasedOn === "margin"}
                 onClick={() => {
-                  handleInputChange("calculatedBasedOn", "margin");
+                  handleFieldChange("calculatedBasedOn", "margin");
                 }}
                 id="part-pricing-scale-calculated-based-on-margin-checkbox"
               />
@@ -211,19 +133,18 @@ export const AddPartPricingScaleForm: React.FC<
             <div>&nbsp;</div>
             <TierList
               tiers={formData.tiers || []}
-              onUpdateTier={(minAmount, percent) =>
-                onUpdateTier(minAmount, percent)
-              }
-              onRemoveTier={(minAmount) => onRemoveTier(minAmount)}
+              onUpdateTier={handleUpdateTier}
+              onRemoveTier={handleRemoveTier}
             />
           </div>
         </form>
 
         <form
           id="add-part-pricing-scale-tier-form"
-          onSubmit={handleAddTier}
+          onSubmit={onAddTier}
           autoComplete="off"
           className="flex flex-col gap-4 border-2 rounded-lg p-4"
+          ref={refNewTierForm}
         >
           <h3 className="font-bold">Add Condition:</h3>
           <div className="flex w-full gap-4">
@@ -247,11 +168,8 @@ export const AddPartPricingScaleForm: React.FC<
                 value={newTierData.minAmount}
                 min={0}
                 step={0.01}
-                onChange={(e) => {
-                  setNewTierData((prev) => ({
-                    ...prev,
-                    minAmount: Number(e.target.value),
-                  }));
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  handleNewTierFieldChange("minAmount", Number(e.target.value));
                 }}
                 icon={
                   <FBIcon
@@ -260,6 +178,7 @@ export const AddPartPricingScaleForm: React.FC<
                     dataFbTestId={"part-pricing-scale-tier-min-amount-icon"}
                   />
                 }
+                ref={refFieldNewTierMinAmount}
               />
             </div>
             <div>
@@ -287,11 +206,8 @@ export const AddPartPricingScaleForm: React.FC<
                 value={newTierData.percent}
                 min={0}
                 step={0.01}
-                onChange={(e) => {
-                  setNewTierData((prev) => ({
-                    ...prev,
-                    percent: Number(e.target.value),
-                  }));
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  handleNewTierFieldChange("percent", Number(e.target.value));
                 }}
                 icon={
                   <FBIcon

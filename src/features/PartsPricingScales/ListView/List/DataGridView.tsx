@@ -41,8 +41,6 @@ export type PartsPricingScale = {
   tiers: PartsPricingScaleTier[];
 };
 
-export type NewPartsPricingScale = Omit<PartsPricingScale, "pricingScaleId">;
-
 type Props = {
   partPricingScales: PartsPricingScale[];
   refreshData: () => void;
@@ -52,11 +50,8 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
   const { t } = useTranslation();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   // const { addPart } = useAddPart();
-  const addPartPricingScale = (newPartPricingScale: NewPartsPricingScale) => {
-    console.log(newPartPricingScale);
-  };
 
-  const handleAddPartPricingScaleSuccess = () => {
+  const addPartPricingScale = () => {
     refreshData();
     setIsSheetOpen(false);
   };
@@ -137,7 +132,6 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
           </FBSheetHeader>
 
           <AddPartPricingScaleForm
-            onSuccess={handleAddPartPricingScaleSuccess}
             addPartPricingScale={addPartPricingScale}
           />
         </FBSheetContent>

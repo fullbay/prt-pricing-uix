@@ -32,6 +32,7 @@ const ListView = () => {
             percent: 50,
           },
         ],
+        calculatedBasedOn: "markup",
       },
       {
         pricingScaleId: "1234567890-3",
@@ -43,6 +44,7 @@ const ListView = () => {
             percent: 50,
           },
         ],
+        calculatedBasedOn: "markup",
       },
       {
         pricingScaleId: "1234567890-2",
@@ -54,6 +56,7 @@ const ListView = () => {
             percent: 50,
           },
         ],
+        calculatedBasedOn: "markup",
       },
     ]);
   }, []);
