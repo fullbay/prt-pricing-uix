@@ -1,8 +1,6 @@
 import FBInputWithStartIcon from "@components/FBInputWithStartIcon.tsx";
 import { TierList } from "@features/PartsPricingScales/ListView/Form/TierList.tsx";
-import {
-  PartsPricingScale,
-} from "@features/PartsPricingScales/ListView/List/DataGridView.tsx";
+import { PartsPricingScale } from "@features/PartsPricingScales/ListView/List/DataGridView.tsx";
 import {
   FBButton,
   FBCheckbox,
@@ -15,7 +13,7 @@ import {
   FBSheetFooter,
 } from "@fullbay/forge";
 import { usePartPricingScaleForm } from "@src/hooks/usePartPricingScaleForm.ts";
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 type AddPartPricingScaleFormProps = {
@@ -45,13 +43,16 @@ export const AddPartPricingScaleForm: React.FC<
   const refFieldNewTierMinAmount = useRef<HTMLInputElement>(null);
   const refNewTierForm = useRef<HTMLFormElement>(null);
 
-  const onAddTier = (e: React.FormEvent) => {
-    handleAddTier(e, () => refFieldNewTierMinAmount.current?.focus());
-    // Add zero delay to ensure the scrolling takes place
-    setTimeout(() => {
-      refNewTierForm.current?.scrollIntoView({ behavior: "smooth" });
-    }, 0);
-  };
+  const onAddTier = useCallback(
+    (e: React.FormEvent) => {
+      handleAddTier(e, () => refFieldNewTierMinAmount.current?.focus());
+      // Add zero delay to ensure the scrolling takes place
+      setTimeout(() => {
+        refNewTierForm.current?.scrollIntoView({ behavior: "smooth" });
+      }, 0);
+    },
+    [handleAddTier]
+  );
 
   return (
     <>

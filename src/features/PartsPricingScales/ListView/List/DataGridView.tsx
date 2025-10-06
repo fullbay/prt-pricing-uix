@@ -131,9 +131,7 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
             </FBSheetTitle>
           </FBSheetHeader>
 
-          <AddPartPricingScaleForm
-            addPartPricingScale={addPartPricingScale}
-          />
+          <AddPartPricingScaleForm addPartPricingScale={addPartPricingScale} />
         </FBSheetContent>
       </FBSheet>
 

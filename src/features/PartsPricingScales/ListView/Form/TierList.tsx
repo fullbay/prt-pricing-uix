@@ -19,7 +19,9 @@ const calculateConditionText = (
     conditionText = `$${formatNumberForDisplay({ value: currentTier.minAmount })} or greater`;
   } else {
     const minAmount = formatNumberForDisplay({ value: currentTier.minAmount });
-    const maxAmount = formatNumberForDisplay({ value: subtractNumbers(nextTier.minAmount, 0.01) });
+    const maxAmount = formatNumberForDisplay({
+      value: subtractNumbers(nextTier.minAmount, 0.01),
+    });
 
     if (minAmount === maxAmount) {
       conditionText = `$${minAmount}`;
@@ -38,13 +40,19 @@ export const TierList: React.FC<TiersListProps> = React.memo(
       );
     }, [tiers]);
 
-    const handlePercentChange = useCallback((minAmount: number, value: number) => {
-      onUpdateTier(minAmount, value);
-    }, [onUpdateTier]);
+    const handlePercentChange = useCallback(
+      (minAmount: number, value: number) => {
+        onUpdateTier(minAmount, value);
+      },
+      [onUpdateTier]
+    );
 
-    const handleRemove = useCallback((minAmount: number) => {
-      onRemoveTier(minAmount);
-    }, [onRemoveTier]);
+    const handleRemove = useCallback(
+      (minAmount: number) => {
+        onRemoveTier(minAmount);
+      },
+      [onRemoveTier]
+    );
 
     return (
       <>

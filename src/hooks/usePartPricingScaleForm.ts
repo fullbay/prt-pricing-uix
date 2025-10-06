@@ -24,8 +24,10 @@ const defaultNewTierData: PartsPricingScaleTier = {
 export function usePartPricingScaleForm(
   onSubmit: (data: Partial<PartsPricingScale>) => void
 ) {
-  const [formData, setFormData] = useState<Partial<PartsPricingScale>>(defaultFormData);
-  const [newTierData, setNewTierData] = useState<PartsPricingScaleTier>(defaultNewTierData);
+  const [formData, setFormData] =
+    useState<Partial<PartsPricingScale>>(defaultFormData);
+  const [newTierData, setNewTierData] =
+    useState<PartsPricingScaleTier>(defaultNewTierData);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const addTierFormIsInvalid = useMemo(() => {
@@ -41,31 +43,40 @@ export function usePartPricingScaleForm(
     [formData.name, formData.tiers]
   );
 
-  const handleAddTier = useCallback((e: React.FormEvent, callback: () => void) => {
-    e.preventDefault();
+  const handleAddTier = useCallback(
+    (e: React.FormEvent, callback: () => void) => {
+      e.preventDefault();
 
-    if (addTierFormIsInvalid) {
-      return;
-    }
+      if (addTierFormIsInvalid) {
+        return;
+      }
 
-    setFormData((prev) => ({
-      ...prev,
-      tiers: [...(prev.tiers || []), newTierData],
-    }));
+      setFormData((prev) => ({
+        ...prev,
+        tiers: [...(prev.tiers || []), newTierData],
+      }));
 
-    // Reset tier form
-    setNewTierData(defaultNewTierData);
+      // Reset tier form
+      setNewTierData(defaultNewTierData);
 
-    callback!();
-  }, [addTierFormIsInvalid, newTierData]);
+      callback!();
+    },
+    [addTierFormIsInvalid, newTierData]
+  );
 
-  const handleFieldChange = useCallback((field: string, value: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  }, []);
+  const handleFieldChange = useCallback(
+    (field: string, value: string | boolean) => {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    },
+    []
+  );
 
-  const handleNewTierFieldChange = useCallback((field: string, value: number) => {
-    setNewTierData((prev) => ({ ...prev, [field]: value }));
-  }, []);
+  const handleNewTierFieldChange = useCallback(
+    (field: string, value: number) => {
+      setNewTierData((prev) => ({ ...prev, [field]: value }));
+    },
+    []
+  );
 
   const handleUpdateTier = useCallback((minAmount: number, percent: number) => {
     setFormData((prev) => ({
@@ -86,32 +97,35 @@ export function usePartPricingScaleForm(
     }));
   }, []);
 
-  const handleSubmit = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
 
-    if (formIsInvalid) {
-      return;
-    }
+      if (formIsInvalid) {
+        return;
+      }
 
-    setIsSubmitting(true);
+      setIsSubmitting(true);
 
-    try {
-      const input: Partial<PartsPricingScale> = {
-        name: formData.name!,
-        isDefault: formData.isDefault!,
-        calculatedBasedOn: formData.calculatedBasedOn!,
-        tiers: formData.tiers!,
-      };
-      // TODO: Add call to store values
-      console.log(input);
-      onSubmit(input);
-    } catch (error) {
-      console.error("Failed to create Part Pricing Scale:", error);
-      throw error;
-    } finally {
-      setIsSubmitting(false);
-    }
-  }, [formData, formIsInvalid, onSubmit]);
+      try {
+        const input: Partial<PartsPricingScale> = {
+          name: formData.name!,
+          isDefault: formData.isDefault!,
+          calculatedBasedOn: formData.calculatedBasedOn!,
+          tiers: formData.tiers!,
+        };
+        // TODO: Add call to store values
+        console.log(input);
+        onSubmit(input);
+      } catch (error) {
+        console.error("Failed to create Part Pricing Scale:", error);
+        throw error;
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [formData, formIsInvalid, onSubmit]
+  );
 
   return {
     addTierFormIsInvalid,
@@ -126,5 +140,4 @@ export function usePartPricingScaleForm(
     isSubmitting,
     newTierData,
   };
-
 }

@@ -5,12 +5,14 @@ type FBInputWithStartIconProps = {
   icon: React.ReactElement;
 } & React.ComponentProps<typeof FBInput>;
 
-const FBInputWithStartIcon = React.forwardRef<HTMLInputElement, FBInputWithStartIconProps>((
-  { icon, className = "", ...rest },
-  ref
-) => {
+const FBInputWithStartIcon = React.forwardRef<
+  HTMLInputElement,
+  FBInputWithStartIconProps
+>(({ icon, className = "", ...rest }, ref) => {
   // Remove any existing `ps-6` classes since we'll be adding our own here
-  const classNameList = className.split(" ").filter((c: string) => c !== "ps-6");
+  const classNameList = className
+    .split(" ")
+    .filter((c: string) => c !== "ps-6");
   classNameList.push("ps-6");
 
   return (
