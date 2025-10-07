@@ -12,17 +12,14 @@ import i18n from "../i18n";
  * This is the main entry point component for Module Federation.
  * It initializes the i18n provider and renders the Integrations component.
  */
-export default function MyComponentMain() {
+export default function PartsPricingScales() {
   const isMobile = useMediaQuery("(max-width: 767px)");
   const isTablet = useMediaQuery("(min-width: 768px) and (max-width: 1199px)");
   const isDesktop = useMediaQuery("(min-width: 1200px)");
   const { setScreenSize, clearInfo } = useScreenSizeStore();
 
   const shortSha = "SHORT_GIT_SHA_PLACEHOLDER";
-  console.log(
-    "prt-pricing-uix short sha (MyComponentMain):",
-    shortSha
-  );
+  console.log("prt-pricing-uix short sha (PartsPricingScales):", shortSha);
 
   useEffect(() => {
     clearInfo();
