@@ -10,9 +10,7 @@ import {
   FBSheetTitle,
   FBSheetTrigger,
 } from "@fullbay/forge";
-import {
-  PartsPricingScale,
-} from "@src/types/partsPricingScales.ts";
+import { PartsPricingScale } from "@src/types/partsPricingScales.ts";
 import { useState } from "react";
 // import { Part } from "@src/graphql/generated/graphqlTypes";
 import { useTranslation } from "react-i18next";

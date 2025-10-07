@@ -35,9 +35,7 @@ const calculateConditionText = (
 export const TierList: React.FC<TiersListProps> = React.memo(
   ({ tiers, onUpdateTier, onRemoveTier }) => {
     const sortedTiers = useMemo(() => {
-      return [...tiers].sort(
-        (a, b) => a.minAmount - b.minAmount
-      );
+      return [...tiers].sort((a, b) => a.minAmount - b.minAmount);
     }, [tiers]);
 
     const handlePercentChange = useCallback(

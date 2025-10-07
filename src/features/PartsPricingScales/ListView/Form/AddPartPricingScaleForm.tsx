@@ -88,9 +88,14 @@ export const AddPartPricingScaleForm: React.FC<
             <div className="flex items-center gap-3">
               <FBRadioGroupItem
                 value={CALCULATION_TYPES.MARKUP}
-                checked={formData.calculatedBasedOn === CALCULATION_TYPES.MARKUP}
+                checked={
+                  formData.calculatedBasedOn === CALCULATION_TYPES.MARKUP
+                }
                 onClick={() => {
-                  handleFieldChange("calculatedBasedOn", CALCULATION_TYPES.MARKUP);
+                  handleFieldChange(
+                    "calculatedBasedOn",
+                    CALCULATION_TYPES.MARKUP
+                  );
                 }}
                 id="part-pricing-scale-calculated-based-on-markup-checkbox"
               />
@@ -101,9 +106,14 @@ export const AddPartPricingScaleForm: React.FC<
             <div className="flex items-center gap-3">
               <FBRadioGroupItem
                 value={CALCULATION_TYPES.MARGIN}
-                checked={formData.calculatedBasedOn === CALCULATION_TYPES.MARGIN}
+                checked={
+                  formData.calculatedBasedOn === CALCULATION_TYPES.MARGIN
+                }
                 onClick={() => {
-                  handleFieldChange("calculatedBasedOn", CALCULATION_TYPES.MARGIN);
+                  handleFieldChange(
+                    "calculatedBasedOn",
+                    CALCULATION_TYPES.MARGIN
+                  );
                 }}
                 id="part-pricing-scale-calculated-based-on-margin-checkbox"
               />

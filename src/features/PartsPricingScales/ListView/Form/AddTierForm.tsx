@@ -19,7 +19,7 @@ type AddTierFormProps = {
   newTierData: PartsPricingScaleTier;
   refFieldNewTierMinAmount: React.RefObject<HTMLInputElement | null>;
   refNewTierForm: React.RefObject<HTMLFormElement | null>;
-}
+};
 
 export const AddTierForm: React.FC<AddTierFormProps> = ({
   addTierFormIsInvalid,
@@ -47,10 +47,8 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
             className="mb-2"
             dataFbTestId={"part-pricing-scale-tier-min-amount-label"}
             children={
-              t(
-                "partsPricingScales.formLabels.minAmount",
-                "Minimum Amount"
-              ) + " *"
+              t("partsPricingScales.formLabels.minAmount", "Minimum Amount") +
+              " *"
             }
             htmlFor="part-pricing-scale-tier-min-amount-input"
           />
@@ -82,14 +80,11 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
             htmlFor="part-pricing-scale-tier-percent-input"
           >
             {formData.calculatedBasedOn === CALCULATION_TYPES.MARKUP
-              ? t(
-                "partsPricingScales.formLabels.percent.markup",
-                "Markup %"
-              )
+              ? t("partsPricingScales.formLabels.percent.markup", "Markup %")
               : t(
-                "partsPricingScales.formLabels.percent.margin",
-                "Margin %"
-              )}{" "}
+                  "partsPricingScales.formLabels.percent.margin",
+                  "Margin %"
+                )}{" "}
             *
           </FBLabel>
           <FBInputWithStartIcon
