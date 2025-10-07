@@ -2,7 +2,7 @@ import {
   PartsPricingScale,
   PartsPricingScaleTier,
 } from "@features/PartsPricingScales/ListView/List/DataGridView.tsx";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 
 const defaultFormData: Partial<PartsPricingScale> = {
   name: "",
@@ -30,6 +30,9 @@ export function usePartPricingScaleForm(
     useState<PartsPricingScaleTier>(defaultNewTierData);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const refFieldNewTierMinAmount = useRef<HTMLInputElement>(null);
+  const refNewTierForm = useRef<HTMLFormElement>(null);
+
   const addTierFormIsInvalid = useMemo(() => {
     return (
       newTierData.minAmount <= 0 ||
@@ -44,7 +47,7 @@ export function usePartPricingScaleForm(
   );
 
   const handleAddTier = useCallback(
-    (e: React.FormEvent, callback: () => void) => {
+    (e: React.FormEvent) => {
       e.preventDefault();
 
       if (addTierFormIsInvalid) {
@@ -59,7 +62,12 @@ export function usePartPricingScaleForm(
       // Reset tier form
       setNewTierData(defaultNewTierData);
 
-      callback!();
+      refFieldNewTierMinAmount.current?.focus();
+
+      // Add zero delay to ensure the scrolling takes place
+      setTimeout(() => {
+        refNewTierForm.current?.scrollIntoView({ behavior: "smooth" });
+      }, 0);
     },
     [addTierFormIsInvalid, newTierData]
   );
@@ -139,5 +147,7 @@ export function usePartPricingScaleForm(
     handleUpdateTier,
     isSubmitting,
     newTierData,
+    refFieldNewTierMinAmount,
+    refNewTierForm,
   };
 }

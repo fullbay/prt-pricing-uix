@@ -13,7 +13,7 @@ import {
   FBSheetFooter,
 } from "@fullbay/forge";
 import { usePartPricingScaleForm } from "@src/hooks/usePartPricingScaleForm.ts";
-import React, { useCallback, useRef } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 
 type AddPartPricingScaleFormProps = {
@@ -38,21 +38,9 @@ export const AddPartPricingScaleForm: React.FC<
     handleUpdateTier,
     isSubmitting,
     newTierData,
+    refFieldNewTierMinAmount,
+    refNewTierForm,
   } = usePartPricingScaleForm(addPartPricingScale);
-
-  const refFieldNewTierMinAmount = useRef<HTMLInputElement>(null);
-  const refNewTierForm = useRef<HTMLFormElement>(null);
-
-  const onAddTier = useCallback(
-    (e: React.FormEvent) => {
-      handleAddTier(e, () => refFieldNewTierMinAmount.current?.focus());
-      // Add zero delay to ensure the scrolling takes place
-      setTimeout(() => {
-        refNewTierForm.current?.scrollIntoView({ behavior: "smooth" });
-      }, 0);
-    },
-    [handleAddTier]
-  );
 
   return (
     <>
@@ -142,7 +130,7 @@ export const AddPartPricingScaleForm: React.FC<
 
         <form
           id="add-part-pricing-scale-tier-form"
-          onSubmit={onAddTier}
+          onSubmit={handleAddTier}
           autoComplete="off"
           className="flex flex-col gap-4 border-2 rounded-lg p-4"
           ref={refNewTierForm}
