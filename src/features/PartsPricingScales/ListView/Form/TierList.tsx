@@ -1,5 +1,5 @@
 import { TierListItem } from "@features/PartsPricingScales/ListView/Form/TierListItem.tsx";
-import { PartsPricingScaleTier } from "@features/PartsPricingScales/ListView/List/DataGridView.tsx";
+import { PartsPricingScaleTier } from "@src/types/partsPricingScales.ts";
 import { formatNumberForDisplay, subtractNumbers } from "@src/utils/numbers.ts";
 import React, { useCallback, useMemo } from "react";
 
@@ -35,9 +35,7 @@ const calculateConditionText = (
 export const TierList: React.FC<TiersListProps> = React.memo(
   ({ tiers, onUpdateTier, onRemoveTier }) => {
     const sortedTiers = useMemo(() => {
-      return [...tiers].sort(
-        (a, b) => Number(a.minAmount) - Number(b.minAmount)
-      );
+      return [...tiers].sort((a, b) => a.minAmount - b.minAmount);
     }, [tiers]);
 
     const handlePercentChange = useCallback(

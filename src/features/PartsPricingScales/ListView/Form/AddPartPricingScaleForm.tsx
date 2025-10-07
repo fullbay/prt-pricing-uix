@@ -1,10 +1,8 @@
-import FBInputWithStartIcon from "@components/FBInputWithStartIcon.tsx";
+import { AddTierForm } from "@features/PartsPricingScales/ListView/Form/AddTierForm.tsx";
 import { TierList } from "@features/PartsPricingScales/ListView/Form/TierList.tsx";
-import { PartsPricingScale } from "@features/PartsPricingScales/ListView/List/DataGridView.tsx";
 import {
   FBButton,
   FBCheckbox,
-  FBIcon,
   FBInput,
   FBLabel,
   FBRadioGroup,
@@ -12,7 +10,12 @@ import {
   FBSheetClose,
   FBSheetFooter,
 } from "@fullbay/forge";
+import {
+  CALCULATION_TYPES,
+  FORM_IDS,
+} from "@src/constants/partPricingScales.ts";
 import { usePartPricingScaleForm } from "@src/hooks/usePartPricingScaleForm.ts";
+import { PartsPricingScale } from "@src/types/partsPricingScales.ts";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -46,7 +49,7 @@ export const AddPartPricingScaleForm: React.FC<
     <>
       <div className="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
         <form
-          id="add-part-pricing-scale-form"
+          id={FORM_IDS.MAIN_FORM}
           onSubmit={handleSubmit}
           autoComplete="off"
           className="flex flex-col gap-4"
@@ -80,14 +83,19 @@ export const AddPartPricingScaleForm: React.FC<
             {t("partsPricingScales.formLabels.isDefault", "Is Default")}
           </FBLabel>
 
-          <FBRadioGroup defaultValue="markup">
+          <FBRadioGroup defaultValue={CALCULATION_TYPES.MARKUP}>
             <h5>Calculate Based On:</h5>
             <div className="flex items-center gap-3">
               <FBRadioGroupItem
-                value="markup"
-                checked={formData.calculatedBasedOn === "markup"}
+                value={CALCULATION_TYPES.MARKUP}
+                checked={
+                  formData.calculatedBasedOn === CALCULATION_TYPES.MARKUP
+                }
                 onClick={() => {
-                  handleFieldChange("calculatedBasedOn", "markup");
+                  handleFieldChange(
+                    "calculatedBasedOn",
+                    CALCULATION_TYPES.MARKUP
+                  );
                 }}
                 id="part-pricing-scale-calculated-based-on-markup-checkbox"
               />
@@ -97,10 +105,15 @@ export const AddPartPricingScaleForm: React.FC<
             </div>
             <div className="flex items-center gap-3">
               <FBRadioGroupItem
-                value="margin"
-                checked={formData.calculatedBasedOn === "margin"}
+                value={CALCULATION_TYPES.MARGIN}
+                checked={
+                  formData.calculatedBasedOn === CALCULATION_TYPES.MARGIN
+                }
                 onClick={() => {
-                  handleFieldChange("calculatedBasedOn", "margin");
+                  handleFieldChange(
+                    "calculatedBasedOn",
+                    CALCULATION_TYPES.MARGIN
+                  );
                 }}
                 id="part-pricing-scale-calculated-based-on-margin-checkbox"
               />
@@ -115,7 +128,7 @@ export const AddPartPricingScaleForm: React.FC<
               {t("partsPricingScales.formLabels.condition", "Condition")}
             </div>
             <div className="col-span-2 font-bold text-end">
-              {formData.calculatedBasedOn === "markup"
+              {formData.calculatedBasedOn === CALCULATION_TYPES.MARKUP
                 ? t("partsPricingScales.formLabels.percent.markup", "Markup %")
                 : t("partsPricingScales.formLabels.percent.margin", "Margin %")}
             </div>
@@ -128,94 +141,15 @@ export const AddPartPricingScaleForm: React.FC<
           </div>
         </form>
 
-        <form
-          id="add-part-pricing-scale-tier-form"
-          onSubmit={handleAddTier}
-          autoComplete="off"
-          className="flex flex-col gap-4 border-2 rounded-lg p-4"
-          ref={refNewTierForm}
-        >
-          <h3 className="font-bold">Add Condition:</h3>
-          <div className="flex w-full gap-4">
-            <div>
-              <FBLabel
-                className="mb-2"
-                dataFbTestId={"part-pricing-scale-tier-min-amount-label"}
-                children={
-                  t(
-                    "partsPricingScales.formLabels.minAmount",
-                    "Minimum Amount"
-                  ) + " *"
-                }
-                htmlFor="part-pricing-scale-tier-min-amount-input"
-              />
-              <FBInputWithStartIcon
-                className="text-end"
-                type="number"
-                id="part-pricing-scale-tier-min-amount-input"
-                dataFbTestId={"part-pricing-scale-tier-min-amount-input"}
-                value={newTierData.minAmount}
-                min={0}
-                step={0.01}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  handleNewTierFieldChange("minAmount", Number(e.target.value));
-                }}
-                icon={
-                  <FBIcon
-                    iconName="dollar"
-                    ariaLabel="Dollar Icon"
-                    dataFbTestId={"part-pricing-scale-tier-min-amount-icon"}
-                  />
-                }
-                ref={refFieldNewTierMinAmount}
-              />
-            </div>
-            <div>
-              <FBLabel
-                className="mb-2"
-                dataFbTestId={"part-pricing-scale-tier-percent-label"}
-                htmlFor="part-pricing-scale-tier-percent-input"
-              >
-                {formData.calculatedBasedOn === "markup"
-                  ? t(
-                      "partsPricingScales.formLabels.percent.markup",
-                      "Markup %"
-                    )
-                  : t(
-                      "partsPricingScales.formLabels.percent.margin",
-                      "Margin %"
-                    )}{" "}
-                *
-              </FBLabel>
-              <FBInputWithStartIcon
-                className="text-end"
-                type="number"
-                id="part-pricing-scale-tier-percent-input"
-                dataFbTestId={"part-pricing-scale-tier-percent-input"}
-                value={newTierData.percent}
-                min={0}
-                step={0.01}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  handleNewTierFieldChange("percent", Number(e.target.value));
-                }}
-                icon={
-                  <FBIcon
-                    iconName="percent"
-                    ariaLabel="Percent Icon"
-                    dataFbTestId={"part-pricing-scale-tier-percent-icon"}
-                  />
-                }
-              />
-            </div>
-          </div>
-          <FBButton
-            type="submit"
-            dataFbTestId="part-pricing-scale-tier-add-button"
-            disabled={addTierFormIsInvalid}
-          >
-            Add Condition
-          </FBButton>
-        </form>
+        <AddTierForm
+          addTierFormIsInvalid={addTierFormIsInvalid}
+          formData={formData}
+          handleAddTier={handleAddTier}
+          handleNewTierFieldChange={handleNewTierFieldChange}
+          newTierData={newTierData}
+          refFieldNewTierMinAmount={refFieldNewTierMinAmount}
+          refNewTierForm={refNewTierForm}
+        />
       </div>
 
       <FBSheetFooter
@@ -223,7 +157,7 @@ export const AddPartPricingScaleForm: React.FC<
         dataFbTestId="add-part-pricing-scale-sheet-footer"
       >
         <FBButton
-          form="add-part-pricing-scale-form"
+          form={FORM_IDS.MAIN_FORM}
           dataFbTestId="submit-add-part-pricing-scale-form-button"
           type="submit"
           disabled={formIsInvalid}

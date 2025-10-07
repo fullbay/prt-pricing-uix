@@ -10,6 +10,7 @@ import {
   FBSheetTitle,
   FBSheetTrigger,
 } from "@fullbay/forge";
+import { PartsPricingScale } from "@src/types/partsPricingScales.ts";
 import { useState } from "react";
 // import { Part } from "@src/graphql/generated/graphqlTypes";
 import { useTranslation } from "react-i18next";
@@ -28,19 +29,6 @@ import { useTranslation } from "react-i18next";
 //   | "quantity"
 //   | "status"
 // >;
-export type PartsPricingScaleTier = {
-  minAmount: number;
-  percent: number;
-};
-
-export type PartsPricingScale = {
-  pricingScaleId: string;
-  name: string;
-  calculatedBasedOn: "markup" | "margin";
-  isDefault: boolean;
-  tiers: PartsPricingScaleTier[];
-};
-
 type Props = {
   partPricingScales: PartsPricingScale[];
   refreshData: () => void;
