@@ -1,13 +1,14 @@
+import { CALCULATION_TYPES } from "@src/constants/partPricingScales.ts";
 import {
   PartsPricingScale,
   PartsPricingScaleTier,
-} from "@features/PartsPricingScales/ListView/List/DataGridView.tsx";
+} from "@src/types/partsPricingScales.ts";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 
 const defaultFormData: Partial<PartsPricingScale> = {
   name: "",
   isDefault: false,
-  calculatedBasedOn: "markup",
+  calculatedBasedOn: CALCULATION_TYPES.MARKUP,
   tiers: [
     {
       minAmount: 0,

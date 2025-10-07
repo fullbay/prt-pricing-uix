@@ -1,6 +1,6 @@
-import DataGridView, {
-  PartsPricingScale,
-} from "@features/PartsPricingScales/ListView/List/DataGridView.tsx";
+import DataGridView from "@features/PartsPricingScales/ListView/List/DataGridView.tsx";
+import { CALCULATION_TYPES } from "@src/constants/partPricingScales.ts";
+import { PartsPricingScale } from "@src/types/partsPricingScales.ts";
 import { useEffect, useState } from "react";
 // import { useListParts } from "@src/hooks/ListParts/useListParts";
 
@@ -32,7 +32,7 @@ const ListView = () => {
             percent: 50,
           },
         ],
-        calculatedBasedOn: "markup",
+        calculatedBasedOn: CALCULATION_TYPES.MARKUP,
       },
       {
         pricingScaleId: "1234567890-3",
@@ -44,7 +44,7 @@ const ListView = () => {
             percent: 50,
           },
         ],
-        calculatedBasedOn: "markup",
+        calculatedBasedOn: CALCULATION_TYPES.MARGIN,
       },
       {
         pricingScaleId: "1234567890-2",
@@ -56,7 +56,7 @@ const ListView = () => {
             percent: 50,
           },
         ],
-        calculatedBasedOn: "markup",
+        calculatedBasedOn: CALCULATION_TYPES.MARKUP,
       },
     ]);
   }, []);

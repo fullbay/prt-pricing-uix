@@ -1,6 +1,6 @@
 import FBInputWithStartIcon from "@components/FBInputWithStartIcon.tsx";
-import { PartsPricingScaleTier } from "@features/PartsPricingScales/ListView/List/DataGridView.tsx";
 import { FBButton, FBIcon } from "@fullbay/forge";
+import { PartsPricingScaleTier } from "@src/types/partsPricingScales.ts";
 import React from "react";
 import { useCallback } from "react";
 
