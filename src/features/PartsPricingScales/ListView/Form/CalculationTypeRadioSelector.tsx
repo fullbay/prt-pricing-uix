@@ -1,8 +1,13 @@
 import { FBLabel, FBRadioGroupItem } from "@fullbay/forge";
-import { CALCULATION_TYPES } from "@src/constants/partPricingScales.ts";
+import {
+  CALCULATION_TYPES,
+  CALCULATION_TYPES_DISPLAY,
+} from "@src/constants/partPricingScales.ts";
 import { PartsPricingScale } from "@src/types/partsPricingScales.ts";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
+
+const CALCULATION_TYPE_ENTRIES = Object.entries(CALCULATION_TYPES);
 
 type CalculationTypeRadioSelectorProps = {
   formData: Partial<PartsPricingScale>;
@@ -16,14 +21,16 @@ export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelector
     const onCalculatedBasedOnClick = useCallback(
       (e: React.MouseEvent) => {
         const target = e.target as HTMLInputElement;
-        handleFieldChange("calculatedBasedOn", target.value);
+        if ("value" in target) {
+          handleFieldChange("calculatedBasedOn", target.value);
+        }
       },
       [handleFieldChange]
     );
 
-    return Object.entries(CALCULATION_TYPES).map(([index, type]) => {
+    return CALCULATION_TYPE_ENTRIES.map(([key, type]) => {
       return (
-        <div className="flex items-center gap-3" key={index}>
+        <div className="flex items-center gap-3" key={key}>
           <FBRadioGroupItem
             value={type}
             checked={formData.calculatedBasedOn === type}
@@ -33,9 +40,11 @@ export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelector
           <FBLabel
             htmlFor={`part-pricing-scale-calculated-based-on-${type}-checkbox`}
           >
-            {t(`partsPricingScales.${type}`)}
+            {t(`partsPricingScales.${type}`, CALCULATION_TYPES_DISPLAY[type])}
           </FBLabel>
         </div>
       );
     });
   });
+
+CalculationTypeRadioSelector.displayName = "CalculationTypeRadioSelector";
