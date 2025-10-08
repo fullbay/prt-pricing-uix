@@ -1,7 +1,9 @@
 import { TierListItem } from "@features/PartsPricingScales/ListView/Form/TierListItem.tsx";
 import { PartsPricingScaleTier } from "@src/types/partsPricingScales.ts";
 import { formatNumberForDisplay, subtractNumbers } from "@src/utils/numbers.ts";
+import { TFunction } from "i18next";
 import React, { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 type TiersListProps = {
   tiers: PartsPricingScaleTier[];
@@ -10,13 +12,14 @@ type TiersListProps = {
 };
 
 const calculateConditionText = (
+  t: TFunction<"translation", undefined>,
   currentTier: PartsPricingScaleTier,
-  nextTier?: PartsPricingScaleTier
+  nextTier?: PartsPricingScaleTier,
 ): string => {
   let conditionText;
 
   if (!nextTier) {
-    conditionText = `$${formatNumberForDisplay({ value: currentTier.minAmount })} or greater`;
+    conditionText = `$${formatNumberForDisplay({ value: currentTier.minAmount })} ` + t("partsPricingScales.formLabels.orGreater", "or greater");
   } else {
     const minAmount = formatNumberForDisplay({ value: currentTier.minAmount });
     const maxAmount = formatNumberForDisplay({
@@ -34,6 +37,8 @@ const calculateConditionText = (
 
 export const TierList: React.FC<TiersListProps> = React.memo(
   ({ tiers, onUpdateTier, onRemoveTier }) => {
+    const { t } = useTranslation();
+
     const sortedTiers = useMemo(() => {
       return [...tiers].sort((a, b) => a.minAmount - b.minAmount);
     }, [tiers]);
@@ -61,7 +66,7 @@ export const TierList: React.FC<TiersListProps> = React.memo(
               tier={tier}
               index={index}
               isFirst={!index}
-              conditionText={calculateConditionText(tier, arr[index + 1])}
+              conditionText={calculateConditionText(t, tier, arr[index + 1])}
               onPercentChange={handlePercentChange}
               onRemove={handleRemove}
             />

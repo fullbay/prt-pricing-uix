@@ -40,7 +40,7 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
       className="flex flex-col gap-4 border-2 rounded-lg p-4"
       ref={refNewTierForm}
     >
-      <h3 className="font-bold">Add Condition:</h3>
+      <h3 className="font-bold">{t("partsPricingScales.formLabels.addCondition", "Add Condition")}:</h3>
       <div className="flex w-full gap-4">
         <div>
           <FBLabel
@@ -113,7 +113,7 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
         dataFbTestId="part-pricing-scale-tier-add-button"
         disabled={addTierFormIsInvalid}
       >
-        Add Condition
+        {t("partsPricingScales.formLabels.addCondition", "Add Condition")}
       </FBButton>
     </form>
   );

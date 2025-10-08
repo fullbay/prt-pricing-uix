@@ -54,11 +54,12 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
     },
     {
       accessorKey: "name",
-      header: t("partsPricingScales.listColumns.name", "Name"),
+      header: t("partsPricingScales.listColumns.name", "Title"),
     },
     {
       accessorKey: "isDefault",
       header: t("partsPricingScales.listColumns.isDefault", "Is Default"),
+      cell: info => info.getValue() ? t("common.yes", "Yes") : t("common.no", "No"),
     },
     // {
     //   accessorKey: "pricingScaleId",

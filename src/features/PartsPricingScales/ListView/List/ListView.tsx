@@ -9,7 +9,7 @@ const ListView = () => {
   // const { parts, loading, refetch } = useListParts();
   //
   // if (loading) {
-  //   return <Loading message={t("partsPricingScales.loadingPricingScales")} />;
+  //   return <Loading message={t("partsPricingScales.loading")} />;
   // }
 
   const [partPricingScales, setPartPricingScales] = useState<
