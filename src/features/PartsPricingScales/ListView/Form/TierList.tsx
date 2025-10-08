@@ -14,12 +14,14 @@ type TiersListProps = {
 const calculateConditionText = (
   t: TFunction<"translation", undefined>,
   currentTier: PartsPricingScaleTier,
-  nextTier?: PartsPricingScaleTier,
+  nextTier?: PartsPricingScaleTier
 ): string => {
   let conditionText;
 
   if (!nextTier) {
-    conditionText = `$${formatNumberForDisplay({ value: currentTier.minAmount })} ` + t("partsPricingScales.formLabels.orGreater", "or greater");
+    conditionText =
+      `$${formatNumberForDisplay({ value: currentTier.minAmount })} ` +
+      t("partsPricingScales.formLabels.orGreater", "or greater");
   } else {
     const minAmount = formatNumberForDisplay({ value: currentTier.minAmount });
     const maxAmount = formatNumberForDisplay({

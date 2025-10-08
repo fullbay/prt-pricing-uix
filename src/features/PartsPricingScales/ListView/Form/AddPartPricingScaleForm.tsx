@@ -1,7 +1,5 @@
 import { AddTierForm } from "@features/PartsPricingScales/ListView/Form/AddTierForm.tsx";
-import {
-  CalculationTypeRadioSelector
-} from "@features/PartsPricingScales/ListView/Form/CalculationTypeRadioSelector.tsx";
+import { CalculationTypeRadioSelector } from "@features/PartsPricingScales/ListView/Form/CalculationTypeRadioSelector.tsx";
 import { TierList } from "@features/PartsPricingScales/ListView/Form/TierList.tsx";
 import {
   FBButton,
@@ -86,8 +84,17 @@ export const AddPartPricingScaleForm: React.FC<
           </FBLabel>
 
           <FBRadioGroup defaultValue={CALCULATION_TYPES.MARKUP}>
-            <h5>{t("partsPricingScales.formLabels.calculateBasedOn", "Calculate Based On")}:</h5>
-            <CalculationTypeRadioSelector formData={formData} handleFieldChange={handleFieldChange} />
+            <h5>
+              {t(
+                "partsPricingScales.formLabels.calculateBasedOn",
+                "Calculate Based On"
+              )}
+              :
+            </h5>
+            <CalculationTypeRadioSelector
+              formData={formData}
+              handleFieldChange={handleFieldChange}
+            />
           </FBRadioGroup>
 
           <div className="grid grid-cols-6 gap-2 mt-2 py-2 border-2 rounded-lg">

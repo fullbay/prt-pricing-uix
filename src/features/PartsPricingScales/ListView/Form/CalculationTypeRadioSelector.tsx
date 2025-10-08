@@ -7,21 +7,21 @@ import { useTranslation } from "react-i18next";
 type CalculationTypeRadioSelectorProps = {
   formData: Partial<PartsPricingScale>;
   handleFieldChange: (field: keyof PartsPricingScale, value: string) => void;
-}
+};
 
-export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelectorProps> = React.memo(({
-   formData,
-   handleFieldChange
-}) => {
-  const { t } = useTranslation();
+export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelectorProps> =
+  React.memo(({ formData, handleFieldChange }) => {
+    const { t } = useTranslation();
 
-  const onCalculatedBasedOnClick = useCallback((e: React.MouseEvent) => {
-    const target = e.target as HTMLInputElement;
-    handleFieldChange("calculatedBasedOn", target.value);
-  }, [handleFieldChange]);
+    const onCalculatedBasedOnClick = useCallback(
+      (e: React.MouseEvent) => {
+        const target = e.target as HTMLInputElement;
+        handleFieldChange("calculatedBasedOn", target.value);
+      },
+      [handleFieldChange]
+    );
 
-  return Object.entries(CALCULATION_TYPES).map(
-    ([index, type]) => {
+    return Object.entries(CALCULATION_TYPES).map(([index, type]) => {
       return (
         <div className="flex items-center gap-3" key={index}>
           <FBRadioGroupItem
@@ -30,11 +30,12 @@ export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelector
             onClick={onCalculatedBasedOnClick}
             id={`part-pricing-scale-calculated-based-on-${type}-checkbox`}
           />
-          <FBLabel htmlFor={`part-pricing-scale-calculated-based-on-${type}-checkbox`}>
+          <FBLabel
+            htmlFor={`part-pricing-scale-calculated-based-on-${type}-checkbox`}
+          >
             {t(`partsPricingScales.${type}`)}
           </FBLabel>
         </div>
       );
-    }
-  );
-});
+    });
+  });
