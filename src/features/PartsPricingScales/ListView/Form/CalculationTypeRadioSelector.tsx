@@ -20,7 +20,7 @@ export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelector
 
     const onCalculatedBasedOnClick = useCallback(
       (e: React.MouseEvent<HTMLInputElement>) => {
-          handleFieldChange("calculatedBasedOn", e.currentTarget.value);
+        handleFieldChange("calculatedBasedOn", e.currentTarget.value);
       },
       [handleFieldChange]
     );
@@ -37,7 +37,12 @@ export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelector
           <FBLabel
             htmlFor={`part-pricing-scale-calculated-based-on-${type}-checkbox`}
           >
-            {t(`partsPricingScales.${type}`, CALCULATION_TYPES_DISPLAY[type as keyof typeof CALCULATION_TYPES_DISPLAY])}
+            {t(
+              `partsPricingScales.${type}`,
+              CALCULATION_TYPES_DISPLAY[
+                type as keyof typeof CALCULATION_TYPES_DISPLAY
+              ]
+            )}
           </FBLabel>
         </div>
       );
