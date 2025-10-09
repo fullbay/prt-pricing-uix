@@ -1,11 +1,11 @@
 import FBInputWithStartIcon from "@components/FBInputWithStartIcon.tsx";
 import { FBButton, FBIcon } from "@fullbay/forge";
-import { PartsPricingScaleTier } from "@src/types/partsPricingScales.ts";
+import { PartPricingScaleTier } from "@src/types/partPricingScales.ts";
 import React from "react";
 import { useCallback } from "react";
 
 type TierListItemProps = {
-  tier: PartsPricingScaleTier;
+  tier: PartPricingScaleTier;
   index: number;
   isFirst: boolean;
   conditionText: string;

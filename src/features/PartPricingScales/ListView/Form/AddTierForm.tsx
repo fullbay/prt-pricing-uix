@@ -5,18 +5,18 @@ import {
   FORM_IDS,
 } from "@src/constants/partPricingScales.ts";
 import {
-  PartsPricingScale,
-  PartsPricingScaleTier,
-} from "@src/types/partsPricingScales.ts";
+  PartPricingScale,
+  PartPricingScaleTier,
+} from "@src/types/partPricingScales.ts";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
 type AddTierFormProps = {
   addTierFormIsInvalid: boolean;
-  formData: Partial<PartsPricingScale>;
+  formData: Partial<PartPricingScale>;
   handleAddTier: (e: React.FormEvent<HTMLFormElement>) => void;
   handleNewTierFieldChange: (field: string, value: number) => void;
-  newTierData: PartsPricingScaleTier;
+  newTierData: PartPricingScaleTier;
   refFieldNewTierMinAmount: React.RefObject<HTMLInputElement | null>;
   refNewTierForm: React.RefObject<HTMLFormElement | null>;
 };
@@ -41,7 +41,7 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
       ref={refNewTierForm}
     >
       <h3 className="font-bold">
-        {t("partsPricingScales.formLabels.addCondition", "Add Condition")}:
+        {t("partPricingScales.formLabels.addCondition", "Add Condition")}:
       </h3>
       <div className="flex w-full gap-4">
         <div>
@@ -49,7 +49,7 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
             className="mb-2"
             dataFbTestId={"part-pricing-scale-tier-min-amount-label"}
             children={
-              t("partsPricingScales.formLabels.minAmount", "Minimum Amount") +
+              t("partPricingScales.formLabels.minAmount", "Minimum Amount") +
               " *"
             }
             htmlFor="part-pricing-scale-tier-min-amount-input"
@@ -82,9 +82,9 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
             htmlFor="part-pricing-scale-tier-percent-input"
           >
             {formData.calculatedBasedOn === CALCULATION_TYPES.MARKUP
-              ? t("partsPricingScales.formLabels.percent.markup", "Markup %")
+              ? t("partPricingScales.formLabels.percent.markup", "Markup %")
               : t(
-                  "partsPricingScales.formLabels.percent.margin",
+                  "partPricingScales.formLabels.percent.margin",
                   "Margin %"
                 )}{" "}
             *
@@ -115,7 +115,7 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
         dataFbTestId="part-pricing-scale-tier-add-button"
         disabled={addTierFormIsInvalid}
       >
-        {t("partsPricingScales.formLabels.addCondition", "Add Condition")}
+        {t("partPricingScales.formLabels.addCondition", "Add Condition")}
       </FBButton>
     </form>
   );
