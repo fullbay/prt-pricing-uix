@@ -34,15 +34,15 @@ const DataGridView = ({ partPricingScales }: Props) => {
   const columns: ColumnDef<PricingScale>[] = [
     {
       accessorKey: "pricingScaleId",
-      header: t("partsPricingScales.listColumns.pricingScaleId", "Id"),
+      header: t("partPricingScales.listColumns.pricingScaleId", "Id"),
     },
     {
       accessorKey: "name",
-      header: t("partsPricingScales.listColumns.name", "Title"),
+      header: t("partPricingScales.listColumns.name", "Title"),
     },
     {
       accessorKey: "isDefault",
-      header: t("partsPricingScales.listColumns.isDefault", "Is Default"),
+      header: t("partPricingScales.listColumns.isDefault", "Is Default"),
       cell: (info) =>
         info.getValue() ? t("common.yes", "Yes") : t("common.no", "No"),
     },
@@ -57,7 +57,7 @@ const DataGridView = ({ partPricingScales }: Props) => {
     //       >
     //         <FBIcon
     //           iconName="edit"
-    //           ariaLabel={t("partsPricingScales.edit", "Edit Parts Pricing Scale")}
+    //           ariaLabel={t("partPricingScales.edit", "Edit Parts Pricing Scale")}
     //           dataFbTestId="edit-part-pricing-scale-icon"
     //         />
     //       </FBButton>
@@ -87,7 +87,7 @@ const DataGridView = ({ partPricingScales }: Props) => {
                 )}
                 dataFbTestId="add-part-pricing-scale-icon"
               />{" "}
-              {t("partsPricingScales.add", "Add Parts Pricing Scale")}
+              {t("partPricingScales.add", "Add Parts Pricing Scale")}
             </FBButton>
           </div>
         </FBSheetTrigger>
@@ -101,7 +101,7 @@ const DataGridView = ({ partPricingScales }: Props) => {
             className="p-4"
           >
             <FBSheetTitle dataFbTestId="add-part-pricing-scale-sheet-title">
-              {t("partsPricingScales.add", "Add Parts Pricing Scale")}
+              {t("partPricingScales.add", "Add Parts Pricing Scale")}
             </FBSheetTitle>
           </FBSheetHeader>
 
