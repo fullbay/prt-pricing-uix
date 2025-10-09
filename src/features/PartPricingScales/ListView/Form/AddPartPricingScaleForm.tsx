@@ -1,6 +1,6 @@
-import { AddTierForm } from "@features/PartsPricingScales/ListView/Form/AddTierForm.tsx";
-import { CalculationTypeRadioSelector } from "@features/PartsPricingScales/ListView/Form/CalculationTypeRadioSelector.tsx";
-import { TierList } from "@features/PartsPricingScales/ListView/Form/TierList.tsx";
+import { AddTierForm } from "@features/PartPricingScales/ListView/Form/AddTierForm.tsx";
+import { CalculationTypeRadioSelector } from "@features/PartPricingScales/ListView/Form/CalculationTypeRadioSelector.tsx";
+import { TierList } from "@features/PartPricingScales/ListView/Form/TierList.tsx";
 import {
   FBButton,
   FBCheckbox,
@@ -15,13 +15,13 @@ import {
   FORM_IDS,
 } from "@src/constants/partPricingScales.ts";
 import { usePartPricingScaleForm } from "@src/hooks/usePartPricingScaleForm.ts";
-import { PartsPricingScale } from "@src/types/partsPricingScales.ts";
+import { PartPricingScale } from "@src/types/partPricingScales.ts";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
 type AddPartPricingScaleFormProps = {
   onSuccess?: () => void;
-  addPartPricingScale: (input: Partial<PartsPricingScale>) => void;
+  addPartPricingScale: (input: Partial<PartPricingScale>) => void;
 };
 
 export const AddPartPricingScaleForm: React.FC<
@@ -58,7 +58,7 @@ export const AddPartPricingScaleForm: React.FC<
             <FBLabel
               className="mb-2"
               dataFbTestId={"part-pricing-scale-name-label"}
-              children={t("partsPricingScales.formLabels.name", "Title") + " *"}
+              children={t("partPricingScales.formLabels.name", "Title") + " *"}
               htmlFor="part-pricing-scale-name-input"
             />
             <FBInput
@@ -80,13 +80,13 @@ export const AddPartPricingScaleForm: React.FC<
               }
               checked={formData.isDefault}
             />
-            {t("partsPricingScales.formLabels.isDefault", "Is Default")}
+            {t("partPricingScales.formLabels.isDefault", "Is Default")}
           </FBLabel>
 
           <FBRadioGroup defaultValue={CALCULATION_TYPES.MARKUP}>
             <h5>
               {t(
-                "partsPricingScales.formLabels.calculateBasedOn",
+                "partPricingScales.formLabels.calculateBasedOn",
                 "Calculate Based On"
               )}
               :
@@ -99,12 +99,12 @@ export const AddPartPricingScaleForm: React.FC<
 
           <div className="grid grid-cols-6 gap-2 mt-2 py-2 border-2 rounded-lg">
             <div className="col-span-3 font-bold ps-4">
-              {t("partsPricingScales.formLabels.condition", "Condition")}
+              {t("partPricingScales.formLabels.condition", "Condition")}
             </div>
             <div className="col-span-2 font-bold text-end">
               {formData.calculatedBasedOn === CALCULATION_TYPES.MARKUP
-                ? t("partsPricingScales.formLabels.percent.markup", "Markup %")
-                : t("partsPricingScales.formLabels.percent.margin", "Margin %")}
+                ? t("partPricingScales.formLabels.percent.markup", "Markup %")
+                : t("partPricingScales.formLabels.percent.margin", "Margin %")}
             </div>
             <div>&nbsp;</div>
             <TierList

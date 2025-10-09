@@ -1,6 +1,6 @@
-import DataGridView from "@features/PartsPricingScales/ListView/List/DataGridView.tsx";
+import DataGridView from "@features/PartPricingScales/ListView/List/DataGridView.tsx";
 import { CALCULATION_TYPES } from "@src/constants/partPricingScales.ts";
-import { PartsPricingScale } from "@src/types/partsPricingScales.ts";
+import { PartPricingScale } from "@src/types/partPricingScales.ts";
 import { useEffect, useState } from "react";
 // import { useListParts } from "@src/hooks/ListParts/useListParts";
 
@@ -9,11 +9,11 @@ const ListView = () => {
   // const { parts, loading, refetch } = useListParts();
   //
   // if (loading) {
-  //   return <Loading message={t("partsPricingScales.loading")} />;
+  //   return <Loading message={t("partPricingScales.loading")} />;
   // }
 
   const [partPricingScales, setPartPricingScales] = useState<
-    PartsPricingScale[]
+    PartPricingScale[]
   >([]);
 
   const refreshData = () => {

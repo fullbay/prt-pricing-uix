@@ -10,6 +10,6 @@ beforeEach(() => {
 
 test("renders MyComponent", () => {
   render(<MyComponent />);
-  const element = screen.getByTestId("partsPricingScales");
+  const element = screen.getByTestId("partPricingScales");
   expect(element).toBeInTheDocument();
 });

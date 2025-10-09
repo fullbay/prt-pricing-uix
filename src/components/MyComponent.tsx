@@ -1,4 +1,4 @@
-import PartsPricingScales from "@features/PartsPricingScales/Dashboard.tsx";
+import PartPricingScales from "@features/PartPricingScales/Dashboard.tsx";
 import { FBIcon, FBSpinner } from "@fullbay/forge";
 import { useStytchSession } from "@src/hooks/auth/useStytchSession";
 import React from "react";
@@ -29,7 +29,7 @@ const MyComponent: React.FC = () => {
     );
   }
 
-  return <PartsPricingScales />;
+  return <PartPricingScales />;
 };
 
 export default MyComponent;
