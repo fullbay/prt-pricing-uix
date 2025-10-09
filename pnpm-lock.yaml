@@ -20,6 +20,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.76.1
         version: 5.87.4(react@19.1.1)
+      '@tanstack/react-table':
+        specifier: ^8.21.3
+        version: 8.21.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       i18next:
         specifier: ^24.2.2
         version: 24.2.3(typescript@5.7.3)

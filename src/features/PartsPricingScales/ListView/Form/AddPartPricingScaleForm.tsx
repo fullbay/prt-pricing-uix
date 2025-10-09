@@ -1,4 +1,5 @@
 import { AddTierForm } from "@features/PartsPricingScales/ListView/Form/AddTierForm.tsx";
+import { CalculationTypeRadioSelector } from "@features/PartsPricingScales/ListView/Form/CalculationTypeRadioSelector.tsx";
 import { TierList } from "@features/PartsPricingScales/ListView/Form/TierList.tsx";
 import {
   FBButton,
@@ -6,7 +7,6 @@ import {
   FBInput,
   FBLabel,
   FBRadioGroup,
-  FBRadioGroupItem,
   FBSheetClose,
   FBSheetFooter,
 } from "@fullbay/forge";
@@ -84,43 +84,17 @@ export const AddPartPricingScaleForm: React.FC<
           </FBLabel>
 
           <FBRadioGroup defaultValue={CALCULATION_TYPES.MARKUP}>
-            <h5>Calculate Based On:</h5>
-            <div className="flex items-center gap-3">
-              <FBRadioGroupItem
-                value={CALCULATION_TYPES.MARKUP}
-                checked={
-                  formData.calculatedBasedOn === CALCULATION_TYPES.MARKUP
-                }
-                onClick={() => {
-                  handleFieldChange(
-                    "calculatedBasedOn",
-                    CALCULATION_TYPES.MARKUP
-                  );
-                }}
-                id="part-pricing-scale-calculated-based-on-markup-checkbox"
-              />
-              <FBLabel htmlFor="part-pricing-scale-calculated-based-on-markup-checkbox">
-                Markup
-              </FBLabel>
-            </div>
-            <div className="flex items-center gap-3">
-              <FBRadioGroupItem
-                value={CALCULATION_TYPES.MARGIN}
-                checked={
-                  formData.calculatedBasedOn === CALCULATION_TYPES.MARGIN
-                }
-                onClick={() => {
-                  handleFieldChange(
-                    "calculatedBasedOn",
-                    CALCULATION_TYPES.MARGIN
-                  );
-                }}
-                id="part-pricing-scale-calculated-based-on-margin-checkbox"
-              />
-              <FBLabel htmlFor="part-pricing-scale-calculated-based-on-margin-checkbox">
-                Margin
-              </FBLabel>
-            </div>
+            <h5>
+              {t(
+                "partsPricingScales.formLabels.calculateBasedOn",
+                "Calculate Based On"
+              )}
+              :
+            </h5>
+            <CalculationTypeRadioSelector
+              formData={formData}
+              handleFieldChange={handleFieldChange}
+            />
           </FBRadioGroup>
 
           <div className="grid grid-cols-6 gap-2 mt-2 py-2 border-2 rounded-lg">
@@ -163,8 +137,8 @@ export const AddPartPricingScaleForm: React.FC<
           disabled={formIsInvalid}
         >
           {isSubmitting
-            ? t("partsPricingScales.formLabels.submitting", "Submitting")
-            : t("partsPricingScales.formLabels.submit", "Submit")}
+            ? t("common.saving", "Saving...")
+            : t("common.save", "Save")}
         </FBButton>
 
         <FBSheetClose dataFbTestId="close-button-sheet" asChild>
