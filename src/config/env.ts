@@ -1,5 +1,5 @@
-function getRequiredEnvVar(name: string, fallback?: string): string {
-  const value = import.meta.env[name] || fallback;
+function getRequiredEnvVar(name: string): string {
+  const value = import.meta.env[name];
   if (!value) {
     throw new Error(`Environment variable ${name} is required but not set`);
   }
@@ -7,9 +7,6 @@ function getRequiredEnvVar(name: string, fallback?: string): string {
 }
 
 export const env = {
-  GRAPHQL_ENDPOINT: getRequiredEnvVar(
-    "VITE_GRAPHQL_ENDPOINT",
-    "https://lsmkwymmazaullepkxk7jnfy3e.appsync-api.us-west-2.amazonaws.com/graphql"
-  ),
+  GRAPHQL_ENDPOINT: getRequiredEnvVar("VITE_GRAPHQL_ENDPOINT"),
   ACCOUNT_ID: getRequiredEnvVar("VITE_ACCOUNT_ID"),
 } as const;

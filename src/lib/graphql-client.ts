@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { print } from "graphql";
+import { env } from "../config/env";
 import { getStytchClient } from "./stytchClient";
 
-const API_URL =
-  import.meta.env.VITE_GRAPHQL_ENDPOINT ||
-  "https://lsmkwymmazaullepkxk7jnfy3e.appsync-api.us-west-2.amazonaws.com/graphql";
+const API_URL = env.GRAPHQL_ENDPOINT;
 
 type GraphQLResponse<T> = {
   data?: T;
