@@ -20,9 +20,9 @@ export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelector
 
     const onCalculatedBasedOnClick = useCallback(
       (e: React.MouseEvent) => {
-        const target = e.target as HTMLInputElement;
+        const target = e.target as HTMLElement;
         if ("value" in target) {
-          handleFieldChange("calculatedBasedOn", target.value);
+          handleFieldChange("calculatedBasedOn", (target as HTMLInputElement).value);
         }
       },
       [handleFieldChange]
