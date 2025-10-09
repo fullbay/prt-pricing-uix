@@ -1,4 +1,4 @@
-import DataGridView from "@features/PartsPricingScales/ListView/List/DataGridView.tsx";
+import DataGridView from "@features/PartPricingScales/ListView/List/DataGridView.tsx";
 import { useListPartPricingScales } from "@src/hooks/PartPricingScales/useListPartPricingScales";
 
 const ListView = () => {

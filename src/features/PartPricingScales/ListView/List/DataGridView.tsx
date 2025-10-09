@@ -1,4 +1,4 @@
-import { AddPartPricingScaleForm } from "@features/PartsPricingScales/ListView/Form/AddPartPricingScaleForm.tsx";
+import { AddPartPricingScaleForm } from "@features/PartPricingScales/ListView/Form/AddPartPricingScaleForm.tsx";
 import {
   FBButton,
   FBDatagrid,
@@ -34,15 +34,15 @@ const DataGridView = ({ partPricingScales }: Props) => {
   const columns: ColumnDef<PricingScale>[] = [
     {
       accessorKey: "pricingScaleId",
-      header: t("partPricingScales.listColumns.pricingScaleId", "Id"),
+      header: t("partsPricingScales.listColumns.pricingScaleId", "Id"),
     },
     {
       accessorKey: "name",
-      header: t("partPricingScales.listColumns.name", "Title"),
+      header: t("partsPricingScales.listColumns.name", "Title"),
     },
     {
       accessorKey: "isDefault",
-      header: t("partPricingScales.listColumns.isDefault", "Is Default"),
+      header: t("partsPricingScales.listColumns.isDefault", "Is Default"),
       cell: (info) =>
         info.getValue() ? t("common.yes", "Yes") : t("common.no", "No"),
     },
@@ -57,7 +57,7 @@ const DataGridView = ({ partPricingScales }: Props) => {
     //       >
     //         <FBIcon
     //           iconName="edit"
-    //           ariaLabel={t("partPricingScales.edit", "Edit Part Pricing Scale")}
+    //           ariaLabel={t("partsPricingScales.edit", "Edit Parts Pricing Scale")}
     //           dataFbTestId="edit-part-pricing-scale-icon"
     //         />
     //       </FBButton>
@@ -82,12 +82,12 @@ const DataGridView = ({ partPricingScales }: Props) => {
               <FBIcon
                 iconName="add"
                 ariaLabel={t(
-                  "partPricingScales.add",
-                  "Add Part Pricing Scale"
+                  "partsPricingScales.add",
+                  "Add Parts Pricing Scale"
                 )}
                 dataFbTestId="add-part-pricing-scale-icon"
               />{" "}
-              {t("partPricingScales.add", "Add Part Pricing Scale")}
+              {t("partsPricingScales.add", "Add Parts Pricing Scale")}
             </FBButton>
           </div>
         </FBSheetTrigger>
@@ -101,7 +101,7 @@ const DataGridView = ({ partPricingScales }: Props) => {
             className="p-4"
           >
             <FBSheetTitle dataFbTestId="add-part-pricing-scale-sheet-title">
-              {t("partPricingScales.add", "Add Part Pricing Scale")}
+              {t("partsPricingScales.add", "Add Parts Pricing Scale")}
             </FBSheetTitle>
           </FBSheetHeader>
 
@@ -115,8 +115,8 @@ const DataGridView = ({ partPricingScales }: Props) => {
       {partPricingScales.length === 0 && (
         <div className="p-3 text-center">
           {t(
-            "partPricingScales.noItems",
-            "No Part Pricing Scales to display."
+            "partsPricingScales.noItems",
+            "No Parts Pricing Scales to display."
           )}
         </div>
       )}
@@ -125,7 +125,7 @@ const DataGridView = ({ partPricingScales }: Props) => {
         <FBDatagrid
           pageSize={10}
           data={partPricingScales}
-          dataFbTestId="datagrid-part-pricing-scales"
+          dataFbTestId="datagrid-parts-pricing-scales"
           columns={columns}
         />
       )}

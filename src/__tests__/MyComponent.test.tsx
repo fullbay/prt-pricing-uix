@@ -44,6 +44,6 @@ test("renders MyComponent", () => {
       <MyComponent />
     </QueryClientProvider>
   );
-  const element = screen.getByTestId("partsPricingScales");
+  const element = screen.getByTestId("partPricingScales");
   expect(element).toBeInTheDocument();
 });

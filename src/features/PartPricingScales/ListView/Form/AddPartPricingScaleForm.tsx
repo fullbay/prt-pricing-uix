@@ -66,7 +66,7 @@ export const AddPartPricingScaleForm: React.FC<
             <FBLabel
               className="mb-2"
               dataFbTestId={"part-pricing-scale-name-label"}
-              children={t("partPricingScales.formLabels.name", "Title") + " *"}
+              children={t("partsPricingScales.formLabels.name", "Title") + " *"}
               htmlFor="part-pricing-scale-name-input"
             />
             <FBInput
@@ -88,13 +88,13 @@ export const AddPartPricingScaleForm: React.FC<
               }
               checked={formData.isDefault}
             />
-            {t("partPricingScales.formLabels.isDefault", "Is Default")}
+            {t("partsPricingScales.formLabels.isDefault", "Is Default")}
           </FBLabel>
 
           <FBRadioGroup defaultValue={CALCULATION_TYPES.MARKUP}>
             <h5>
               {t(
-                "partPricingScales.formLabels.calculateBasedOn",
+                "partsPricingScales.formLabels.calculateBasedOn",
                 "Calculate Based On"
               )}
               :
@@ -107,12 +107,12 @@ export const AddPartPricingScaleForm: React.FC<
 
           <div className="grid grid-cols-6 gap-2 mt-2 py-2 border-2 rounded-lg">
             <div className="col-span-3 font-bold ps-4">
-              {t("partPricingScales.formLabels.condition", "Condition")}
+              {t("partsPricingScales.formLabels.condition", "Condition")}
             </div>
             <div className="col-span-2 font-bold text-end">
               {formData.calculatedBasedOn === CALCULATION_TYPES.MARKUP
-                ? t("partPricingScales.formLabels.percent.markup", "Markup %")
-                : t("partPricingScales.formLabels.percent.margin", "Margin %")}
+                ? t("partsPricingScales.formLabels.percent.markup", "Markup %")
+                : t("partsPricingScales.formLabels.percent.margin", "Margin %")}
             </div>
             <div>&nbsp;</div>
             <TierList
