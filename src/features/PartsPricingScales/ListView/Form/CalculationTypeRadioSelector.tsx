@@ -37,7 +37,7 @@ export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelector
           <FBLabel
             htmlFor={`part-pricing-scale-calculated-based-on-${type}-checkbox`}
           >
-            {t(`partsPricingScales.${type}`, CALCULATION_TYPES_DISPLAY[type])}
+            {t(`partsPricingScales.${type}`, CALCULATION_TYPES_DISPLAY[type as keyof typeof CALCULATION_TYPES_DISPLAY])}
           </FBLabel>
         </div>
       );
