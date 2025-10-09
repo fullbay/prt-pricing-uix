@@ -11,6 +11,7 @@ import {
   FBSheetTrigger,
 } from "@fullbay/forge";
 import { PartsPricingScale } from "@src/types/partsPricingScales.ts";
+import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 // import { Part } from "@src/graphql/generated/graphqlTypes";
 import { useTranslation } from "react-i18next";
@@ -47,7 +48,7 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
   //   console.log(partPricingScaleId);
   // };
 
-  const columns = [
+  const columns: ColumnDef<PartsPricingScale>[] = [
     {
       accessorKey: "pricingScaleId",
       header: t("partsPricingScales.listColumns.pricingScaleId", "Id"),
