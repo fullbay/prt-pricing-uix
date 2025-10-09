@@ -1,14 +1,18 @@
 import { CALCULATION_TYPES } from "@src/constants/partPricingScales.ts";
 import {
-  PartsPricingScale,
-  PartsPricingScaleTier,
-} from "@src/types/partsPricingScales.ts";
+  CalculationMethod,
+  CreatePartPricingScaleInput,
+  PricingScale,
+  PricingTierInput,
+} from "@src/graphql/generated/graphqlTypes";
 import React, { useCallback, useMemo, useRef, useState } from "react";
+import { UseMutationResult } from "@tanstack/react-query";
 
-const defaultFormData: Partial<PartsPricingScale> = {
+const defaultFormData: Partial<CreatePartPricingScaleInput> = {
   name: "",
   isDefault: false,
-  calculatedBasedOn: CALCULATION_TYPES.MARKUP,
+  calculatedBasedOn: CALCULATION_TYPES.MARKUP as CalculationMethod,
+  state: "active",
   tiers: [
     {
       minAmount: 0,
@@ -17,18 +21,19 @@ const defaultFormData: Partial<PartsPricingScale> = {
   ],
 };
 
-const defaultNewTierData: PartsPricingScaleTier = {
+const defaultNewTierData: PricingTierInput = {
   minAmount: 0,
   percent: 0,
 };
 
 export function usePartPricingScaleForm(
-  onSubmit: (data: Partial<PartsPricingScale>) => void
+  createMutation: UseMutationResult<PricingScale, Error, CreatePartPricingScaleInput>,
+  onSuccess?: () => void
 ) {
   const [formData, setFormData] =
-    useState<Partial<PartsPricingScale>>(defaultFormData);
+    useState<Partial<CreatePartPricingScaleInput>>(defaultFormData);
   const [newTierData, setNewTierData] =
-    useState<PartsPricingScaleTier>(defaultNewTierData);
+    useState<PricingTierInput>(defaultNewTierData);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const refFieldNewTierMinAmount = useRef<HTMLInputElement>(null);
@@ -117,23 +122,29 @@ export function usePartPricingScaleForm(
       setIsSubmitting(true);
 
       try {
-        const input: Partial<PartsPricingScale> = {
+        const input: CreatePartPricingScaleInput = {
           name: formData.name!,
           isDefault: formData.isDefault!,
           calculatedBasedOn: formData.calculatedBasedOn!,
+          state: formData.state || "active",
           tiers: formData.tiers!,
         };
-        // TODO: Add call to store values
-        console.log(input);
-        onSubmit(input);
+        await createMutation.mutateAsync(input);
+
+        // Reset form after successful submission
+        setFormData(defaultFormData);
+        setNewTierData(defaultNewTierData);
+
+        if (onSuccess) {
+          onSuccess();
+        }
       } catch (error) {
         console.error("Failed to create Part Pricing Scale:", error);
-        throw error;
       } finally {
         setIsSubmitting(false);
       }
     },
-    [formData, formIsInvalid, onSubmit]
+    [formData, formIsInvalid, createMutation, onSuccess]
   );
 
   return {

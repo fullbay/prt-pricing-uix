@@ -15,18 +15,26 @@ import {
   FORM_IDS,
 } from "@src/constants/partPricingScales.ts";
 import { usePartPricingScaleForm } from "@src/hooks/usePartPricingScaleForm.ts";
-import { PartsPricingScale } from "@src/types/partsPricingScales.ts";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { UseMutationResult } from "@tanstack/react-query";
+import {
+  CreatePartPricingScaleMutationVariables,
+  PricingScale,
+} from "@src/graphql/generated/graphqlTypes";
 
 type AddPartPricingScaleFormProps = {
   onSuccess?: () => void;
-  addPartPricingScale: (input: Partial<PartsPricingScale>) => void;
+  createMutation: UseMutationResult<
+    PricingScale,
+    Error,
+    CreatePartPricingScaleMutationVariables["input"]
+  >;
 };
 
 export const AddPartPricingScaleForm: React.FC<
   AddPartPricingScaleFormProps
-> = ({ addPartPricingScale }) => {
+> = ({ createMutation, onSuccess }) => {
   const { t } = useTranslation();
 
   const {
@@ -43,7 +51,7 @@ export const AddPartPricingScaleForm: React.FC<
     newTierData,
     refFieldNewTierMinAmount,
     refNewTierForm,
-  } = usePartPricingScaleForm(addPartPricingScale);
+  } = usePartPricingScaleForm(createMutation, onSuccess);
 
   return (
     <>

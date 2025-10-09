@@ -1,5 +1,4 @@
 import { AddPartPricingScaleForm } from "@features/PartsPricingScales/ListView/Form/AddPartPricingScaleForm.tsx";
-// import { categoryOptions, conditionOptions, statusOptions } from "@features/Inventory/ListView/Form/AddPartFormData.ts";
 import {
   FBButton,
   FBDatagrid,
@@ -10,45 +9,29 @@ import {
   FBSheetTitle,
   FBSheetTrigger,
 } from "@fullbay/forge";
-import { PartsPricingScale } from "@src/types/partsPricingScales.ts";
+import { useCreatePartPricingScaleMutation } from "@src/hooks/PartPricingScales/useCreatePartPricingScaleMutation";
+import { PricingScale } from "@src/graphql/generated/graphqlTypes";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
-// import { Part } from "@src/graphql/generated/graphqlTypes";
 import { useTranslation } from "react-i18next";
 
-// import { useAddPart } from "../../../../hooks/AddPart/useAddPart";
-// import { AddPartForm } from "../Form/AddPartForm";
-
-// Use Pick to only require the fields we actually display
-// type DisplayPart = Pick<
-//   Part,
-//   | "partNumber"
-//   | "manufacturer"
-//   | "description"
-//   | "category"
-//   | "condition"
-//   | "quantity"
-//   | "status"
-// >;
 type Props = {
-  partPricingScales: PartsPricingScale[];
-  refreshData: () => void;
+  partPricingScales: PricingScale[];
 };
 
-const DataGridView = ({ partPricingScales, refreshData }: Props) => {
+const DataGridView = ({ partPricingScales }: Props) => {
   const { t } = useTranslation();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  // const { addPart } = useAddPart();
+  const createMutation = useCreatePartPricingScaleMutation();
 
-  const addPartPricingScale = () => {
-    refreshData();
+  const handleSuccess = () => {
     setIsSheetOpen(false);
   };
   // const handleEditPartPricingScale = (partPricingScaleId: string) => () => {
   //   console.log(partPricingScaleId);
   // };
 
-  const columns: ColumnDef<PartsPricingScale>[] = [
+  const columns: ColumnDef<PricingScale>[] = [
     {
       accessorKey: "pricingScaleId",
       header: t("partsPricingScales.listColumns.pricingScaleId", "Id"),
@@ -122,7 +105,10 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
             </FBSheetTitle>
           </FBSheetHeader>
 
-          <AddPartPricingScaleForm addPartPricingScale={addPartPricingScale} />
+          <AddPartPricingScaleForm
+            createMutation={createMutation}
+            onSuccess={handleSuccess}
+          />
         </FBSheetContent>
       </FBSheet>
 

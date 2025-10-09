@@ -1,0 +1,14 @@
+query GetConfig($accountId: String!) {
+  getConfig(accountId: $accountId) {
+    accountId
+    skuType
+    unitPack
+    parts {
+      partsForRepair
+      inventory
+      marketPlace
+      eCommerce
+      integrations
+    }
+  }
+}
