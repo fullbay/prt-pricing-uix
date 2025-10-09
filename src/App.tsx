@@ -1,6 +1,6 @@
 import "./App.css";
 import LeftNavigationLocal from "./components/LocalInstance/LeftNavigationLocal";
-import PartsPricingScales from "./entryPoints/PartsPricingScales.tsx";
+import PartPricingScales from "./entryPoints/PartPricingScales.tsx";
 
 const App = () => {
   return (
@@ -8,7 +8,7 @@ const App = () => {
       <LeftNavigationLocal />
       <div id="right-div" style={{ width: "calc(100% - 55px)" }}>
         <div id="contents-div" className="w-full h-full overflow-auto p-3">
-          <PartsPricingScales />
+          <PartPricingScales />
         </div>
       </div>
     </div>

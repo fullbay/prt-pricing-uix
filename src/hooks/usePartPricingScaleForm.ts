@@ -1,11 +1,11 @@
 import { CALCULATION_TYPES } from "@src/constants/partPricingScales.ts";
 import {
-  PartsPricingScale,
-  PartsPricingScaleTier,
-} from "@src/types/partsPricingScales.ts";
+  PartPricingScale,
+  PartPricingScaleTier,
+} from "@src/types/partPricingScales.ts";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 
-const defaultFormData: Partial<PartsPricingScale> = {
+const defaultFormData: Partial<PartPricingScale> = {
   name: "",
   isDefault: false,
   calculatedBasedOn: CALCULATION_TYPES.MARKUP,
@@ -17,18 +17,18 @@ const defaultFormData: Partial<PartsPricingScale> = {
   ],
 };
 
-const defaultNewTierData: PartsPricingScaleTier = {
+const defaultNewTierData: PartPricingScaleTier = {
   minAmount: 0,
   percent: 0,
 };
 
 export function usePartPricingScaleForm(
-  onSubmit: (data: Partial<PartsPricingScale>) => void
+  onSubmit: (data: Partial<PartPricingScale>) => void
 ) {
   const [formData, setFormData] =
-    useState<Partial<PartsPricingScale>>(defaultFormData);
+    useState<Partial<PartPricingScale>>(defaultFormData);
   const [newTierData, setNewTierData] =
-    useState<PartsPricingScaleTier>(defaultNewTierData);
+    useState<PartPricingScaleTier>(defaultNewTierData);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const refFieldNewTierMinAmount = useRef<HTMLInputElement>(null);
@@ -117,7 +117,7 @@ export function usePartPricingScaleForm(
       setIsSubmitting(true);
 
       try {
-        const input: Partial<PartsPricingScale> = {
+        const input: Partial<PartPricingScale> = {
           name: formData.name!,
           isDefault: formData.isDefault!,
           calculatedBasedOn: formData.calculatedBasedOn!,

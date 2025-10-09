@@ -1,4 +1,4 @@
-import { AddPartPricingScaleForm } from "@features/PartsPricingScales/ListView/Form/AddPartPricingScaleForm.tsx";
+import { AddPartPricingScaleForm } from "@features/PartPricingScales/ListView/Form/AddPartPricingScaleForm.tsx";
 // import { categoryOptions, conditionOptions, statusOptions } from "@features/Inventory/ListView/Form/AddPartFormData.ts";
 import {
   FBButton,
@@ -10,7 +10,7 @@ import {
   FBSheetTitle,
   FBSheetTrigger,
 } from "@fullbay/forge";
-import { PartsPricingScale } from "@src/types/partsPricingScales.ts";
+import { PartPricingScale } from "@src/types/partPricingScales.ts";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 // import { Part } from "@src/graphql/generated/graphqlTypes";
@@ -31,7 +31,7 @@ import { useTranslation } from "react-i18next";
 //   | "status"
 // >;
 type Props = {
-  partPricingScales: PartsPricingScale[];
+  partPricingScales: PartPricingScale[];
   refreshData: () => void;
 };
 
@@ -48,18 +48,18 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
   //   console.log(partPricingScaleId);
   // };
 
-  const columns: ColumnDef<PartsPricingScale>[] = [
+  const columns: ColumnDef<PartPricingScale>[] = [
     {
       accessorKey: "pricingScaleId",
-      header: t("partsPricingScales.listColumns.pricingScaleId", "Id"),
+      header: t("partPricingScales.listColumns.pricingScaleId", "Id"),
     },
     {
       accessorKey: "name",
-      header: t("partsPricingScales.listColumns.name", "Title"),
+      header: t("partPricingScales.listColumns.name", "Title"),
     },
     {
       accessorKey: "isDefault",
-      header: t("partsPricingScales.listColumns.isDefault", "Is Default"),
+      header: t("partPricingScales.listColumns.isDefault", "Is Default"),
       cell: (info) =>
         info.getValue() ? t("common.yes", "Yes") : t("common.no", "No"),
     },
@@ -74,7 +74,7 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
     //       >
     //         <FBIcon
     //           iconName="edit"
-    //           ariaLabel={t("partsPricingScales.edit", "Edit Parts Pricing Scale")}
+    //           ariaLabel={t("partPricingScales.edit", "Edit Part Pricing Scale")}
     //           dataFbTestId="edit-part-pricing-scale-icon"
     //         />
     //       </FBButton>
@@ -99,12 +99,12 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
               <FBIcon
                 iconName="add"
                 ariaLabel={t(
-                  "partsPricingScales.add",
-                  "Add Parts Pricing Scale"
+                  "partPricingScales.add",
+                  "Add Part Pricing Scale"
                 )}
                 dataFbTestId="add-part-pricing-scale-icon"
               />{" "}
-              {t("partsPricingScales.add", "Add Parts Pricing Scale")}
+              {t("partPricingScales.add", "Add Part Pricing Scale")}
             </FBButton>
           </div>
         </FBSheetTrigger>
@@ -118,7 +118,7 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
             className="p-4"
           >
             <FBSheetTitle dataFbTestId="add-part-pricing-scale-sheet-title">
-              {t("partsPricingScales.add", "Add Parts Pricing Scale")}
+              {t("partPricingScales.add", "Add Part Pricing Scale")}
             </FBSheetTitle>
           </FBSheetHeader>
 
@@ -129,8 +129,8 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
       {partPricingScales.length === 0 && (
         <div className="p-3 text-center">
           {t(
-            "partsPricingScales.noItems",
-            "No Parts Pricing Scales to display."
+            "partPricingScales.noItems",
+            "No Part Pricing Scales to display."
           )}
         </div>
       )}
@@ -139,7 +139,7 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
         <FBDatagrid
           pageSize={10}
           data={partPricingScales}
-          dataFbTestId="datagrid-parts-pricing-scales"
+          dataFbTestId="datagrid-part-pricing-scales"
           columns={columns}
         />
       )}

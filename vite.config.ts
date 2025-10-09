@@ -23,7 +23,7 @@ export default defineConfig(({ mode }) => {
               name: "temp",
               filename: "fullbay-mf-maincomponent.js",
               exposes: {
-                "./MyComponent": "./src/entryPoints/PartsPricingScales.tsx",
+                "./MyComponent": "./src/entryPoints/partPricingScales.tsx",
               },
               shared: {
                 react: { singleton: true },

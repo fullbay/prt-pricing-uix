@@ -3,15 +3,15 @@ import {
   CALCULATION_TYPES,
   CALCULATION_TYPES_DISPLAY,
 } from "@src/constants/partPricingScales.ts";
-import { PartsPricingScale } from "@src/types/partsPricingScales.ts";
+import { PartPricingScale } from "@src/types/partPricingScales.ts";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 const CALCULATION_TYPE_ENTRIES = Object.entries(CALCULATION_TYPES);
 
 type CalculationTypeRadioSelectorProps = {
-  formData: Partial<PartsPricingScale>;
-  handleFieldChange: (field: keyof PartsPricingScale, value: string) => void;
+  formData: Partial<PartPricingScale>;
+  handleFieldChange: (field: keyof PartPricingScale, value: string) => void;
 };
 
 export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelectorProps> =
@@ -38,7 +38,7 @@ export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelector
             htmlFor={`part-pricing-scale-calculated-based-on-${type}-checkbox`}
           >
             {t(
-              `partsPricingScales.${type}`,
+              `partPricingScales.${type}`,
               CALCULATION_TYPES_DISPLAY[
                 type as keyof typeof CALCULATION_TYPES_DISPLAY
               ]
