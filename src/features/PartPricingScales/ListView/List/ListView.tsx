@@ -1,71 +1,24 @@
+import Loading from "@components/Loading.tsx";
 import DataGridView from "@features/PartPricingScales/ListView/List/DataGridView.tsx";
-import { CALCULATION_TYPES } from "@src/constants/partPricingScales.ts";
-import { PartPricingScale } from "@src/types/partPricingScales.ts";
-import { useEffect, useState } from "react";
-// import { useListParts } from "@src/hooks/ListParts/useListParts";
+import { useListPartPricingScales } from "@src/hooks/ListPartPricingScales/useListPartPricingScales";
+import { useTranslation } from "react-i18next";
 
 const ListView = () => {
-  // // accountId is now taken from env inside the hook
-  // const { parts, loading, refetch } = useListParts();
-  //
-  // if (loading) {
-  //   return <Loading message={t("partPricingScales.loading")} />;
-  // }
+  const { t } = useTranslation();
 
-  const [partPricingScales, setPartPricingScales] = useState<
-    PartPricingScale[]
-  >([]);
+  // accountId is now taken from env inside the hook
+  const { partPricingScales, loading, refetch } = useListPartPricingScales();
 
-  const refreshData = () => {
-    // refetch();
-  };
-
-  useEffect(() => {
-    setPartPricingScales([
-      {
-        pricingScaleId: "1234567890-1",
-        name: "Pricing Scale 1",
-        isDefault: false,
-        tiers: [
-          {
-            minAmount: 0,
-            percent: 50,
-          },
-        ],
-        calculatedBasedOn: CALCULATION_TYPES.MARKUP,
-      },
-      {
-        pricingScaleId: "1234567890-3",
-        name: "Pricing Scale 3",
-        isDefault: false,
-        tiers: [
-          {
-            minAmount: 0,
-            percent: 50,
-          },
-        ],
-        calculatedBasedOn: CALCULATION_TYPES.MARGIN,
-      },
-      {
-        pricingScaleId: "1234567890-2",
-        name: "Pricing Scale 2",
-        isDefault: true,
-        tiers: [
-          {
-            minAmount: 0,
-            percent: 50,
-          },
-        ],
-        calculatedBasedOn: CALCULATION_TYPES.MARKUP,
-      },
-    ]);
-  }, []);
+  if (loading) {
+    return (
+      <div className="flex-1 flex items-center justify-center">
+        <Loading message={t("partPricingScales.loading")} />
+      </div>
+    );
+  }
 
   return (
-    <DataGridView
-      partPricingScales={partPricingScales}
-      refreshData={refreshData}
-    />
+    <DataGridView partPricingScales={partPricingScales} refreshData={refetch} />
   );
 };
 
