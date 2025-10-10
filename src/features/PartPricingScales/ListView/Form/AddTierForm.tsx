@@ -46,14 +46,13 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
       <div className="flex w-full gap-4">
         <div>
           <FBLabel
-            className="mb-2"
+            className="mb-2 whitespace-nowrap"
             dataFbTestId={"part-pricing-scale-tier-min-amount-label"}
-            children={
-              t("partPricingScales.formLabels.minAmount", "Minimum Amount") +
-              " *"
-            }
             htmlFor="part-pricing-scale-tier-min-amount-input"
-          />
+          >
+            {t("partPricingScales.formLabels.minAmount", "Minimum Amount") +
+              " *"}
+          </FBLabel>
           <FBInputWithStartIcon
             className="text-end"
             type="number"
@@ -77,7 +76,7 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
         </div>
         <div>
           <FBLabel
-            className="mb-2"
+            className="mb-2 whitespace-nowrap"
             dataFbTestId={"part-pricing-scale-tier-percent-label"}
             htmlFor="part-pricing-scale-tier-percent-input"
           >

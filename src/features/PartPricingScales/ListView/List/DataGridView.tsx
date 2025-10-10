@@ -13,23 +13,8 @@ import {
 import { PartPricingScale } from "@src/types/partPricingScales.ts";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
-// import { Part } from "@src/graphql/generated/graphqlTypes";
 import { useTranslation } from "react-i18next";
 
-// import { useAddPart } from "../../../../hooks/AddPart/useAddPart";
-// import { AddPartForm } from "../Form/AddPartForm";
-
-// Use Pick to only require the fields we actually display
-// type DisplayPart = Pick<
-//   Part,
-//   | "partNumber"
-//   | "manufacturer"
-//   | "description"
-//   | "category"
-//   | "condition"
-//   | "quantity"
-//   | "status"
-// >;
 type Props = {
   partPricingScales: PartPricingScale[];
   refreshData: () => void;
@@ -38,21 +23,13 @@ type Props = {
 const DataGridView = ({ partPricingScales, refreshData }: Props) => {
   const { t } = useTranslation();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  // const { addPart } = useAddPart();
 
   const addPartPricingScale = () => {
     refreshData();
     setIsSheetOpen(false);
   };
-  // const handleEditPartPricingScale = (partPricingScaleId: string) => () => {
-  //   console.log(partPricingScaleId);
-  // };
 
   const columns: ColumnDef<PartPricingScale>[] = [
-    {
-      accessorKey: "pricingScaleId",
-      header: t("partPricingScales.listColumns.pricingScaleId", "Id"),
-    },
     {
       accessorKey: "name",
       header: t("partPricingScales.listColumns.name", "Title"),
@@ -98,10 +75,7 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
             >
               <FBIcon
                 iconName="add"
-                ariaLabel={t(
-                  "partPricingScales.add",
-                  "Add Part Pricing Scale"
-                )}
+                ariaLabel={t("partPricingScales.add", "Add Part Pricing Scale")}
                 dataFbTestId="add-part-pricing-scale-icon"
               />{" "}
               {t("partPricingScales.add", "Add Part Pricing Scale")}
@@ -128,10 +102,7 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
 
       {partPricingScales.length === 0 && (
         <div className="p-3 text-center">
-          {t(
-            "partPricingScales.noItems",
-            "No Part Pricing Scales to display."
-          )}
+          {t("partPricingScales.noItems", "No Part Pricing Scales to display.")}
         </div>
       )}
 

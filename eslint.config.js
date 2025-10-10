@@ -8,7 +8,7 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: ["dist", "coverage", ".__mf__temp"],
+    ignores: ["dist", "coverage", ".__mf__temp", "src/graphql/generated/**"],
   },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],

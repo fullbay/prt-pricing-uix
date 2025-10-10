@@ -1,0 +1,24 @@
+mutation UpdatePartPricingScale(
+  $accountId: String!
+  $pricingScaleId: String!
+  $input: UpdatePartPricingScaleInput!
+) {
+  updatePartPricingScale(
+    accountId: $accountId
+    pricingScaleId: $pricingScaleId
+    input: $input
+  ) {
+    pricingScaleId
+    accountId
+    name
+    calculatedBasedOn
+    isDefault
+    state
+    tiers {
+      minAmount
+      percent
+    }
+    createdAt
+    updatedAt
+  }
+}

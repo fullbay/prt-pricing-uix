@@ -1,0 +1,16 @@
+query GetPartPricingScale($accountId: String!, $pricingScaleId: String!) {
+  getPartPricingScale(accountId: $accountId, pricingScaleId: $pricingScaleId) {
+    pricingScaleId
+    accountId
+    name
+    calculatedBasedOn
+    isDefault
+    state
+    tiers {
+      minAmount
+      percent
+    }
+    createdAt
+    updatedAt
+  }
+}

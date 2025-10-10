@@ -1,4 +1,6 @@
 import { CALCULATION_TYPES } from "@src/constants/partPricingScales.ts";
+import { CreatePartPricingScaleInput } from "@src/graphql/generated/graphqlTypes.ts";
+import { useAddPartPricingScale } from "@src/hooks/AddPartPricingScale/useAddPartPricingScale.ts";
 import {
   PartPricingScale,
   PartPricingScaleTier,
@@ -30,6 +32,8 @@ export function usePartPricingScaleForm(
   const [newTierData, setNewTierData] =
     useState<PartPricingScaleTier>(defaultNewTierData);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { addPartPricingScale } = useAddPartPricingScale();
 
   const refFieldNewTierMinAmount = useRef<HTMLInputElement>(null);
   const refNewTierForm = useRef<HTMLFormElement>(null);
@@ -117,14 +121,17 @@ export function usePartPricingScaleForm(
       setIsSubmitting(true);
 
       try {
-        const input: Partial<PartPricingScale> = {
+        const input: CreatePartPricingScaleInput = {
           name: formData.name!,
           isDefault: formData.isDefault!,
-          calculatedBasedOn: formData.calculatedBasedOn!,
+          calculatedBasedOn:
+            formData.calculatedBasedOn! as CreatePartPricingScaleInput["calculatedBasedOn"],
+          state: "active",
           tiers: formData.tiers!,
         };
-        // TODO: Add call to store values
-        console.log(input);
+
+        await addPartPricingScale(input);
+
         onSubmit(input);
       } catch (error) {
         console.error("Failed to create Part Pricing Scale:", error);
@@ -133,7 +140,7 @@ export function usePartPricingScaleForm(
         setIsSubmitting(false);
       }
     },
-    [formData, formIsInvalid, onSubmit]
+    [addPartPricingScale, formData, formIsInvalid, onSubmit]
   );
 
   return {

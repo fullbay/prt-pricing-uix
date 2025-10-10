@@ -1,0 +1,113 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type AccountConfig {
+  accountId: String!
+  parts: PartsConfig
+  skuType: String!
+  unitPack: [String]
+}
+
+type CheckAuthResponse {
+  message: String!
+  status: String!
+  timestamp: String!
+  user: User!
+}
+
+type HelloResponse {
+  message: String!
+}
+
+type Mutation {
+  createPartPricingScale(
+    accountId: String!
+    input: CreatePartPricingScaleInput!
+  ): PricingScale!
+  deletePartPricingScale(accountId: String!, pricingScaleId: String!): Boolean!
+  updatePartPricingScale(
+    accountId: String!
+    input: UpdatePartPricingScaleInput!
+    pricingScaleId: String!
+  ): PricingScale!
+}
+
+type PartsConfig {
+  eCommerce: String
+  integrations: [String]
+  inventory: String
+  marketPlace: String
+  partsForRepair: String
+}
+
+type PricingScale {
+  accountId: String!
+  calculatedBasedOn: CalculationMethod!
+  createdAt: Int!
+  isDefault: Boolean!
+  name: String!
+  pricingScaleId: String!
+  state: PricingState!
+  tiers: [PricingTier!]!
+  updatedAt: Int!
+}
+
+type PricingTier {
+  minAmount: Float!
+  percent: Float!
+}
+
+type Query {
+  checkAuth: CheckAuthResponse!
+  getConfig(accountId: String!): AccountConfig
+  getPartPricingScale(accountId: String!, pricingScaleId: String!): PricingScale
+  hello: HelloResponse!
+  listPartPricingScales(
+    accountId: String!
+    cursor: String
+    limit: Int
+    state: PricingState
+  ): [PricingScale!]!
+}
+
+type User {
+  context: String!
+  organizationId: String!
+  roles: [String!]!
+  sessionId: String!
+  sub: String!
+}
+
+enum CalculationMethod {
+  margin
+  markup
+}
+
+enum PricingState {
+  active
+  archived
+  deleted
+}
+
+input CreatePartPricingScaleInput {
+  calculatedBasedOn: CalculationMethod!
+  isDefault: Boolean!
+  name: String!
+  state: PricingState!
+  tiers: [PricingTierInput!]!
+}
+
+input PricingTierInput {
+  minAmount: Float!
+  percent: Float!
+}
+
+input UpdatePartPricingScaleInput {
+  calculatedBasedOn: CalculationMethod!
+  isDefault: Boolean!
+  name: String!
+  state: PricingState!
+  tiers: [PricingTierInput!]!
+}

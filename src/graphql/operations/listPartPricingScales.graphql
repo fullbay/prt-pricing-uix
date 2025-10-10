@@ -1,0 +1,26 @@
+query ListPartPricingScales(
+  $accountId: String!
+  $limit: Int
+  $cursor: String
+  $state: PricingState
+) {
+  listPartPricingScales(
+    accountId: $accountId
+    limit: $limit
+    cursor: $cursor
+    state: $state
+  ) {
+    pricingScaleId
+    accountId
+    name
+    calculatedBasedOn
+    isDefault
+    state
+    tiers {
+      minAmount
+      percent
+    }
+    createdAt
+    updatedAt
+  }
+}
