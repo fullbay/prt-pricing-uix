@@ -3,12 +3,12 @@ import {
   CreatePartPricingScaleInput,
   CreatePartPricingScaleMutationVariables,
 } from "../../graphql/generated/graphqlTypes";
-import { useCreatePartPricingScale } from "./useCreatePartPricingScaleMutation";
+import { useCreatePartPricingScaleMutation } from "./useCreatePartPricingScaleMutation";
 
-export function useAddPartPricingScale() {
-  const mutation = useCreatePartPricingScale();
+export function useCreatePartPricingScale() {
+  const mutation = useCreatePartPricingScaleMutation();
 
-  const addPartPricingScale = async (input: CreatePartPricingScaleInput) => {
+  const createPartPricingScale = async (input: CreatePartPricingScaleInput) => {
     const variables: CreatePartPricingScaleMutationVariables = {
       accountId: env.ACCOUNT_ID,
       input,
@@ -17,7 +17,7 @@ export function useAddPartPricingScale() {
   };
 
   return {
-    addPartPricingScale,
+    createPartPricingScale,
     isAddingPartPricingScale: mutation.isPending,
     error: mutation.error,
     isSuccess: mutation.isSuccess,

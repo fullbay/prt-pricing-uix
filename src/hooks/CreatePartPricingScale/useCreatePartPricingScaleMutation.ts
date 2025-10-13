@@ -17,7 +17,7 @@ async function createPartPricingScale(
   return data.createPartPricingScale;
 }
 
-export function useCreatePartPricingScale() {
+export function useCreatePartPricingScaleMutation() {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -28,6 +28,9 @@ export function useCreatePartPricingScale() {
       // Invalidate and refetch the list of pricing scales
       queryClient.invalidateQueries({
         queryKey: ["partPricingScales", "list"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["partPricingScales", "get"],
       });
     },
   });
