@@ -1,3 +1,4 @@
+import Loading from "@components/Loading.tsx";
 import { AddTierForm } from "@features/PartPricingScales/ListView/Form/AddTierForm.tsx";
 import { CalculationTypeRadioSelector } from "@features/PartPricingScales/ListView/Form/CalculationTypeRadioSelector.tsx";
 import { TierList } from "@features/PartPricingScales/ListView/Form/TierList.tsx";
@@ -16,37 +17,60 @@ import {
 } from "@src/constants/partPricingScales.ts";
 import { usePartPricingScaleForm } from "@src/hooks/usePartPricingScaleForm.ts";
 import { PartPricingScale } from "@src/types/partPricingScales.ts";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 type AddPartPricingScaleFormProps = {
-  onSuccess?: () => void;
-  addPartPricingScale: (input: Partial<PartPricingScale>) => void;
+  partPricingScaleId: string | null;
+  onFormSuccess: (input: Partial<PartPricingScale>) => void;
 };
 
 export const AddPartPricingScaleForm: React.FC<
   AddPartPricingScaleFormProps
-> = ({ addPartPricingScale }) => {
+> = ({ onFormSuccess, partPricingScaleId }) => {
   const { t } = useTranslation();
 
   const {
     addTierFormIsInvalid,
+    errorMessage,
     formData,
     formIsInvalid,
     handleAddTier,
     handleFieldChange,
     handleNewTierFieldChange,
     handleRemoveTier,
+    handleResetFormData,
     handleSubmit,
     handleUpdateTier,
+    isFetchingPartPricingScale,
     isSubmitting,
     newTierData,
     refFieldNewTierMinAmount,
     refNewTierForm,
-  } = usePartPricingScaleForm(addPartPricingScale);
+  } = usePartPricingScaleForm(onFormSuccess);
+
+  useEffect(() => {
+    handleResetFormData(partPricingScaleId);
+  }, [handleResetFormData, partPricingScaleId]);
+
+  if (isSubmitting || isFetchingPartPricingScale) {
+    const translationKey = isFetchingPartPricingScale ? "common.loading" : "common.saving";
+    const translationFallback = isFetchingPartPricingScale ? "Loading..." : "Saving...";
+
+    return (
+      <div className="flex-1 flex items-center justify-center">
+        <Loading message={t(translationKey, translationFallback)} />
+      </div>
+    );
+  }
 
   return (
     <>
+      {errorMessage && (
+        <div className="mx-4 p-3 border rounded-md text-destructive text-sm">
+          {errorMessage}
+        </div>
+      )}
       <div className="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
         <form
           id={FORM_IDS.MAIN_FORM}
@@ -130,6 +154,12 @@ export const AddPartPricingScaleForm: React.FC<
         className="flex flex-row items-center justify-end gap-3 p-4"
         dataFbTestId="add-part-pricing-scale-sheet-footer"
       >
+        <FBSheetClose dataFbTestId="close-button-sheet" asChild>
+          <FBButton dataFbTestId="close-button" variant="secondary">
+            {t("common.close", "Close")}
+          </FBButton>
+        </FBSheetClose>
+
         <FBButton
           form={FORM_IDS.MAIN_FORM}
           dataFbTestId="submit-add-part-pricing-scale-form-button"
@@ -140,12 +170,6 @@ export const AddPartPricingScaleForm: React.FC<
             ? t("common.saving", "Saving...")
             : t("common.save", "Save")}
         </FBButton>
-
-        <FBSheetClose dataFbTestId="close-button-sheet" asChild>
-          <FBButton dataFbTestId="close-button" variant="secondary">
-            {t("common.close")}
-          </FBButton>
-        </FBSheetClose>
       </FBSheetFooter>
     </>
   );
