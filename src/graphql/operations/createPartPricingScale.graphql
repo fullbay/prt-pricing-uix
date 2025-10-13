@@ -1,0 +1,19 @@
+mutation CreatePartPricingScale(
+  $accountId: String!
+  $input: CreatePartPricingScaleInput!
+) {
+  createPartPricingScale(accountId: $accountId, input: $input) {
+    pricingScaleId
+    accountId
+    name
+    calculatedBasedOn
+    isDefault
+    state
+    tiers {
+      minAmount
+      percent
+    }
+    createdAt
+    updatedAt
+  }
+}
