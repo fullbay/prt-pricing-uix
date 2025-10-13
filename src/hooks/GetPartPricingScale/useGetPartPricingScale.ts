@@ -1,8 +1,6 @@
 import { useGetPartPricingScaleQuery } from "@src/hooks/GetPartPricingScale/useGetPartPricingScaleQuery.ts";
 
-export const useGetPartPricingScale = (
-  pricingScaleId: string | null
-) => {
+export const useGetPartPricingScale = (pricingScaleId: string | null) => {
   const { data, isFetching, error, refetch } = useGetPartPricingScaleQuery(
     pricingScaleId || ""
   );

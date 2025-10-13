@@ -14,7 +14,13 @@ import {
   PartPricingScaleTier,
 } from "@src/types/partPricingScales.ts";
 import { getErrorMessage } from "@src/utils/errorUtils.ts";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 const defaultFormData: Partial<PartPricingScale> = {
   name: "",
@@ -42,12 +48,13 @@ export function usePartPricingScaleForm(
   const [newTierData, setNewTierData] =
     useState<PartPricingScaleTier>(defaultNewTierData);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [partPricingScaleId, setPartPricingScaleId] = useState<string | null>(null);
+  const [partPricingScaleId, setPartPricingScaleId] = useState<string | null>(
+    null
+  );
 
   const { createPartPricingScale } = useCreatePartPricingScale();
-  const { partPricingScale, fetching: isFetchingPartPricingScale } = useGetPartPricingScale(
-    partPricingScaleId
-  );
+  const { partPricingScale, fetching: isFetchingPartPricingScale } =
+    useGetPartPricingScale(partPricingScaleId);
   const { updatePartPricingScale } = useUpdatePartPricingScale();
 
   const refFieldNewTierMinAmount = useRef<HTMLInputElement>(null);
@@ -145,14 +152,15 @@ export function usePartPricingScaleForm(
       setIsSubmitting(true);
 
       try {
-        const input: CreatePartPricingScaleInput | UpdatePartPricingScaleInput = {
-          name: formData.name!,
-          isDefault: formData.isDefault!,
-          calculatedBasedOn:
-            formData.calculatedBasedOn! as CreatePartPricingScaleInput["calculatedBasedOn"],
-          state: PART_PRICING_STATE.ACTIVE,
-          tiers: formData.tiers!,
-        };
+        const input: CreatePartPricingScaleInput | UpdatePartPricingScaleInput =
+          {
+            name: formData.name!,
+            isDefault: formData.isDefault!,
+            calculatedBasedOn:
+              formData.calculatedBasedOn! as CreatePartPricingScaleInput["calculatedBasedOn"],
+            state: PART_PRICING_STATE.ACTIVE,
+            tiers: formData.tiers!,
+          };
 
         if (formData.pricingScaleId) {
           await updatePartPricingScale(formData.pricingScaleId, input);
@@ -165,19 +173,31 @@ export function usePartPricingScaleForm(
         setPartPricingScaleId(null); // Clear the form
       } catch (error) {
         console.error("Failed to save Part Pricing Scale:", error);
-        const message = getErrorMessage(error, "Failed to save Part Pricing Scale");
+        const message = getErrorMessage(
+          error,
+          "Failed to save Part Pricing Scale"
+        );
         setErrorMessage(message);
       } finally {
         setIsSubmitting(false);
       }
     },
-    [createPartPricingScale, formData, formIsInvalid, onSubmit, updatePartPricingScale]
+    [
+      createPartPricingScale,
+      formData,
+      formIsInvalid,
+      onSubmit,
+      updatePartPricingScale,
+    ]
   );
 
-  const handleResetFormData = useCallback((newPartPricingScaleId: string | null) => {
-    // Update the pricing scale ID, which will trigger the useEffect to fetch/reset data
-    setPartPricingScaleId(newPartPricingScaleId);
-  }, []);
+  const handleResetFormData = useCallback(
+    (newPartPricingScaleId: string | null) => {
+      // Update the pricing scale ID, which will trigger the useEffect to fetch/reset data
+      setPartPricingScaleId(newPartPricingScaleId);
+    },
+    []
+  );
 
   return {
     addTierFormIsInvalid,

@@ -1,7 +1,10 @@
 /**
  * Extracts a user-friendly error message from various error types
  */
-export function getErrorMessage(error: unknown, defaultMessage = "An error occurred"): string {
+export function getErrorMessage(
+  error: unknown,
+  defaultMessage = "An error occurred"
+): string {
   if (error instanceof Error) {
     return error.message;
   }

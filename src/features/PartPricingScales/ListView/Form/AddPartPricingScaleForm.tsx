@@ -54,8 +54,12 @@ export const AddPartPricingScaleForm: React.FC<
   }, [handleResetFormData, partPricingScaleId]);
 
   if (isSubmitting || isFetchingPartPricingScale) {
-    const translationKey = isFetchingPartPricingScale ? "common.loading" : "common.saving";
-    const translationFallback = isFetchingPartPricingScale ? "Loading..." : "Saving...";
+    const translationKey = isFetchingPartPricingScale
+      ? "common.loading"
+      : "common.saving";
+    const translationFallback = isFetchingPartPricingScale
+      ? "Loading..."
+      : "Saving...";
 
     return (
       <div className="flex-1 flex items-center justify-center">
