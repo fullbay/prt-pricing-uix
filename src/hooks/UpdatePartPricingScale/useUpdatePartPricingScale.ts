@@ -8,7 +8,10 @@ import { useUpdatePartPricingScaleMutation } from "./useUpdatePartPricingScaleMu
 export function useUpdatePartPricingScale() {
   const mutation = useUpdatePartPricingScaleMutation();
 
-  const updatePartPricingScale = async (pricingScaleId: string, input: UpdatePartPricingScaleInput) => {
+  const updatePartPricingScale = async (
+    pricingScaleId: string,
+    input: UpdatePartPricingScaleInput
+  ) => {
     const variables: UpdatePartPricingScaleMutationVariables = {
       accountId: env.ACCOUNT_ID,
       pricingScaleId,

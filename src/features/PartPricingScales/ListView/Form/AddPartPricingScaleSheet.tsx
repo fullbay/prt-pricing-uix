@@ -15,13 +15,9 @@ type AddPartPricingScaleSheetProps = {
   title: string;
 };
 
-export const AddPartPricingScaleSheet: React.FC<AddPartPricingScaleSheetProps> = ({
-  onOpenChange,
-  open,
-  partPricingScaleId,
-  refreshData,
-  title,
-}) => {
+export const AddPartPricingScaleSheet: React.FC<
+  AddPartPricingScaleSheetProps
+> = ({ onOpenChange, open, partPricingScaleId, refreshData, title }) => {
   const handleSuccess = () => {
     refreshData();
     onOpenChange(false);

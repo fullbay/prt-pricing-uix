@@ -14,7 +14,9 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
   const { t } = useTranslation();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [sheetTitle, setSheetTitle] = useState("");
-  const [editPartPricingScaleId, setEditPartPricingScaleId] = useState<string | null>(null);
+  const [editPartPricingScaleId, setEditPartPricingScaleId] = useState<
+    string | null
+  >(null);
 
   const handleAddPartPricingScaleButtonClick = useCallback(() => {
     setSheetTitle(t("partPricingScales.add", "Add Part Pricing Scale"));
@@ -22,11 +24,14 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
     setIsSheetOpen(true);
   }, [t]);
 
-  const handleEditPartPricingScaleButtonClick = useCallback((partPricingScaleId: string) => {
-    setSheetTitle(t("partPricingScales.edit", "Edit Part Pricing Scale"));
-    setEditPartPricingScaleId(partPricingScaleId);
-    setIsSheetOpen(true);
-  }, [t]);
+  const handleEditPartPricingScaleButtonClick = useCallback(
+    (partPricingScaleId: string) => {
+      setSheetTitle(t("partPricingScales.edit", "Edit Part Pricing Scale"));
+      setEditPartPricingScaleId(partPricingScaleId);
+      setIsSheetOpen(true);
+    },
+    [t]
+  );
 
   const columns: ColumnDef<PartPricingScale>[] = [
     {
@@ -42,17 +47,23 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
     {
       accessorKey: "pricingScaleId",
       header: "",
-      cell: info => {
+      cell: (info) => {
         const pricingScaleId = info.getValue() as string;
         return (
           <div className="text-right">
-            <FBButton dataFbTestId={`edit-part-pricing-scale-btn-${pricingScaleId}`}
-                      variant="default"
-                      onClick={() => handleEditPartPricingScaleButtonClick(pricingScaleId)}
+            <FBButton
+              dataFbTestId={`edit-part-pricing-scale-btn-${pricingScaleId}`}
+              variant="default"
+              onClick={() =>
+                handleEditPartPricingScaleButtonClick(pricingScaleId)
+              }
             >
               <FBIcon
                 iconName="edit"
-                ariaLabel={t("partPricingScales.edit", "Edit Part Pricing Scale")}
+                ariaLabel={t(
+                  "partPricingScales.edit",
+                  "Edit Part Pricing Scale"
+                )}
                 dataFbTestId="edit-part-pricing-scale-icon"
               />
             </FBButton>
@@ -65,7 +76,11 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
   return (
     <>
       <div className="flex justify-end py-3">
-        <FBButton dataFbTestId="add-part-pricing-scale-btn" variant="default" onClick={handleAddPartPricingScaleButtonClick}>
+        <FBButton
+          dataFbTestId="add-part-pricing-scale-btn"
+          variant="default"
+          onClick={handleAddPartPricingScaleButtonClick}
+        >
           <FBIcon
             iconName="add"
             ariaLabel={t("partPricingScales.add", "Add Part Pricing Scale")}
