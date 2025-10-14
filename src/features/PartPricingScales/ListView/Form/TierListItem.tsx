@@ -61,7 +61,7 @@ export const TierListItem: React.FC<TierListItemProps> = React.memo(
               <FBIcon
                 ariaLabel="Remove Tier"
                 dataFbTestId={`part-pricing-scale-tier-remove-icon-${index}`}
-                iconName="delete"
+                iconName="trash-can"
               />
             </FBButton>
           )}

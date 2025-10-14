@@ -19,8 +19,8 @@ const LeftNavigationLocal = () => {
   return (
     <div
       id="left-nav-div"
-      className="h-full flex items-center flex-col"
-      style={{ width: "55px", backgroundColor: "var(--color-ash-900)" }}
+      className="h-full flex items-center flex-col bg-color-black70"
+      style={{ width: "55px" }}
     >
       <FBSheet dataFbTestId={"settings-sheet"}>
         <FBSheetTrigger
@@ -30,18 +30,14 @@ const LeftNavigationLocal = () => {
         >
           <div>
             <FBButton
-              className="w-full h-fit mt-3"
+              className="w-full h-fit mt-3 bg-color-black70"
               dataFbTestId="settings-sheet-trigger-button"
               variant="default"
-              style={{
-                backgroundColor: "var(--color-ash-900)",
-                color: "var(--color-ash-100)",
-              }}
             >
               <FBIcon
                 ariaLabel={t("main.navigation.settingsAriaLabel")}
                 dataFbTestId={"settings-icon"}
-                iconName={"settings"}
+                iconName={"gear"}
               />
             </FBButton>
           </div>

@@ -69,7 +69,7 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
               }}
               icon={
                 <FBIcon
-                  iconName="dollar"
+                  iconName="dollar-sign"
                   ariaLabel="Dollar Icon"
                   dataFbTestId={"part-pricing-scale-tier-min-amount-icon"}
                 />

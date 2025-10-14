@@ -6,11 +6,12 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
+  fetching: boolean,
   partPricingScales: PartPricingScale[];
   refreshData: () => void;
 };
 
-const DataGridView = ({ partPricingScales, refreshData }: Props) => {
+const DataGridView = ({ fetching, partPricingScales, refreshData }: Props) => {
   const { t } = useTranslation();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [sheetTitle, setSheetTitle] = useState("");
@@ -67,7 +68,7 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
               }
             >
               <FBIcon
-                iconName="edit"
+                iconName="pen-to-square"
                 ariaLabel={t(
                   "partPricingScales.edit",
                   "Edit Part Pricing Scale"
@@ -90,7 +91,7 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
           onClick={handleAddPartPricingScaleButtonClick}
         >
           <FBIcon
-            iconName="add"
+            iconName="plus"
             ariaLabel={t("partPricingScales.add", "Add Part Pricing Scale")}
             dataFbTestId="add-part-pricing-scale-icon"
           />{" "}
@@ -118,6 +119,11 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
           data={partPricingScales}
           dataFbTestId="datagrid-part-pricing-scales"
           columns={columns}
+          hasNextPage={false}
+          isLoading={fetching}
+          onLoadNext={() => {
+            console.log("Pending implementation.");
+          }}
         />
       )}
     </>
