@@ -8,10 +8,14 @@ import {
 } from "../../graphql/generated/graphqlTypes";
 import { graphqlClient } from "../../lib/graphql-client";
 
-export function useGetPartPricingScaleQuery(pricingScaleId: string) {
+export function useGetPartPricingScaleQuery(pricingScaleId: string | null) {
   return useQuery({
     queryKey: ["partPricingScales", "get", pricingScaleId],
     queryFn: async () => {
+      if (!pricingScaleId) {
+        throw new Error("pricingScaleId is required");
+      }
+
       const variables: GetPartPricingScaleQueryVariables = {
         accountId: env.ACCOUNT_ID,
         pricingScaleId,
@@ -22,7 +26,6 @@ export function useGetPartPricingScaleQuery(pricingScaleId: string) {
       );
       return data.getPartPricingScale;
     },
-    staleTime: 0, // Make sure we're loading fresh data each call
     enabled: !!pricingScaleId,
   });
 }

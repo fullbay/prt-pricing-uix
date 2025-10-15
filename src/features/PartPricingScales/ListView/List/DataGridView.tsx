@@ -33,6 +33,14 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
     [t]
   );
 
+  const handleSheetClose = useCallback((open: boolean) => {
+    setIsSheetOpen(open);
+    if (!open) {
+      // Clear state when sheet closes
+      setEditPartPricingScaleId(null);
+    }
+  }, []);
+
   const columns: ColumnDef<PartPricingScale>[] = [
     {
       accessorKey: "name",
@@ -91,7 +99,7 @@ const DataGridView = ({ partPricingScales, refreshData }: Props) => {
       </div>
 
       <AddPartPricingScaleSheet
-        onOpenChange={setIsSheetOpen}
+        onOpenChange={handleSheetClose}
         open={isSheetOpen}
         partPricingScaleId={editPartPricingScaleId}
         refreshData={refreshData}

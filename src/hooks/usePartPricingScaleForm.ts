@@ -7,7 +7,7 @@ import {
   UpdatePartPricingScaleInput,
 } from "@src/graphql/generated/graphqlTypes.ts";
 import { useCreatePartPricingScale } from "@src/hooks/CreatePartPricingScale/useCreatePartPricingScale.ts";
-import { useGetPartPricingScale } from "@src/hooks/GetPartPricingScale/useGetPartPricingScale.ts";
+import { useGetPartPricingScaleQuery } from "@src/hooks/GetPartPricingScale/useGetPartPricingScaleQuery.ts";
 import { useUpdatePartPricingScale } from "@src/hooks/UpdatePartPricingScale/useUpdatePartPricingScale.ts";
 import {
   PartPricingScale,
@@ -40,32 +40,40 @@ const defaultNewTierData: PartPricingScaleTier = {
 };
 
 export function usePartPricingScaleForm(
-  onSubmit: (data: Partial<PartPricingScale>) => void
+  onSubmit: (data: Partial<PartPricingScale>) => void,
+  partPricingScaleId: string | null
 ) {
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] =
     useState<Partial<PartPricingScale>>(defaultFormData);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [newTierData, setNewTierData] =
     useState<PartPricingScaleTier>(defaultNewTierData);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [partPricingScaleId, setPartPricingScaleId] = useState<string | null>(
-    null
-  );
 
   const { createPartPricingScale } = useCreatePartPricingScale();
-  const { partPricingScale, fetching: isFetchingPartPricingScale } =
-    useGetPartPricingScale(partPricingScaleId);
+  const { data: partPricingScale, isFetching: isFetchingPartPricingScale } =
+    useGetPartPricingScaleQuery(partPricingScaleId);
   const { updatePartPricingScale } = useUpdatePartPricingScale();
 
   const refFieldNewTierMinAmount = useRef<HTMLInputElement>(null);
+  const refLoadedPartPricingScaleId = useRef<string | null>(null);
   const refNewTierForm = useRef<HTMLFormElement>(null);
 
   // Update form data when pricing scale is loaded
   useEffect(() => {
-    if (partPricingScale && partPricingScaleId) {
+    if (
+      partPricingScale &&
+      partPricingScaleId &&
+      refLoadedPartPricingScaleId.current !== partPricingScaleId
+    ) {
       setFormData(partPricingScale);
-    } else {
+      refLoadedPartPricingScaleId.current = partPricingScaleId;
+    } else if (
+      !partPricingScale &&
+      refLoadedPartPricingScaleId.current !== null
+    ) {
       setFormData(defaultFormData);
+      refLoadedPartPricingScaleId.current = null;
     }
   }, [partPricingScale, partPricingScaleId]);
 
@@ -162,22 +170,19 @@ export function usePartPricingScaleForm(
             tiers: formData.tiers!,
           };
 
-        if (formData.pricingScaleId) {
-          await updatePartPricingScale(formData.pricingScaleId, input);
+        if (partPricingScaleId) {
+          await updatePartPricingScale(partPricingScaleId, input);
         } else {
           await createPartPricingScale(input);
         }
 
         setErrorMessage(""); // Clear any previous errors
         onSubmit(input);
-        setPartPricingScaleId(null); // Clear the form
       } catch (error) {
         console.error("Failed to save Part Pricing Scale:", error);
-        const message = getErrorMessage(
-          error,
-          "Failed to save Part Pricing Scale"
+        setErrorMessage(
+          getErrorMessage(error, "Failed to save Part Pricing Scale")
         );
-        setErrorMessage(message);
       } finally {
         setIsSubmitting(false);
       }
@@ -187,16 +192,9 @@ export function usePartPricingScaleForm(
       formData,
       formIsInvalid,
       onSubmit,
+      partPricingScaleId,
       updatePartPricingScale,
     ]
-  );
-
-  const handleResetFormData = useCallback(
-    (newPartPricingScaleId: string | null) => {
-      // Update the pricing scale ID, which will trigger the useEffect to fetch/reset data
-      setPartPricingScaleId(newPartPricingScaleId);
-    },
-    []
   );
 
   return {
@@ -208,7 +206,6 @@ export function usePartPricingScaleForm(
     handleFieldChange,
     handleNewTierFieldChange,
     handleRemoveTier,
-    handleResetFormData,
     handleSubmit,
     handleUpdateTier,
     isFetchingPartPricingScale,

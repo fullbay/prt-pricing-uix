@@ -24,14 +24,24 @@ export function useUpdatePartPricingScaleMutation() {
     mutationFn: (variables: UpdatePartPricingScaleMutationVariables) => {
       return updatePartPricingScale(variables);
     },
-    onSuccess: () => {
+    onSuccess: (_updatedScale, variables) => {
       // Invalidate and refetch the list of pricing scales
       queryClient.invalidateQueries({
         queryKey: ["partPricingScales", "list"],
       });
-      queryClient.invalidateQueries({
-        queryKey: ["partPricingScales", "get"],
-      });
+      // Check if isDefault was modified in the input
+      if (variables.input.isDefault !== undefined) {
+        // isDefault was changed - invalidate ALL get queries
+        // (we don't know which scale was previously default)
+        queryClient.invalidateQueries({
+          queryKey: ["partPricingScales", "get"],
+        });
+      } else {
+        // Only non-isDefault fields changed - just invalidate this specific item
+        queryClient.invalidateQueries({
+          queryKey: ["partPricingScales", "get", variables.pricingScaleId],
+        });
+      }
     },
   });
 }

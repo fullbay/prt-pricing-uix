@@ -1,4 +1,3 @@
-import Loading from "@components/Loading.tsx";
 import { AddTierForm } from "@features/PartPricingScales/ListView/Form/AddTierForm.tsx";
 import { CalculationTypeRadioSelector } from "@features/PartPricingScales/ListView/Form/CalculationTypeRadioSelector.tsx";
 import { TierList } from "@features/PartPricingScales/ListView/Form/TierList.tsx";
@@ -17,7 +16,7 @@ import {
 } from "@src/constants/partPricingScales.ts";
 import { usePartPricingScaleForm } from "@src/hooks/usePartPricingScaleForm.ts";
 import { PartPricingScale } from "@src/types/partPricingScales.ts";
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 
 type AddPartPricingScaleFormProps = {
@@ -39,7 +38,6 @@ export const AddPartPricingScaleForm: React.FC<
     handleFieldChange,
     handleNewTierFieldChange,
     handleRemoveTier,
-    handleResetFormData,
     handleSubmit,
     handleUpdateTier,
     isFetchingPartPricingScale,
@@ -47,26 +45,9 @@ export const AddPartPricingScaleForm: React.FC<
     newTierData,
     refFieldNewTierMinAmount,
     refNewTierForm,
-  } = usePartPricingScaleForm(onFormSuccess);
+  } = usePartPricingScaleForm(onFormSuccess, partPricingScaleId);
 
-  useEffect(() => {
-    handleResetFormData(partPricingScaleId);
-  }, [handleResetFormData, partPricingScaleId]);
-
-  if (isSubmitting || isFetchingPartPricingScale) {
-    const translationKey = isFetchingPartPricingScale
-      ? "common.loading"
-      : "common.saving";
-    const translationFallback = isFetchingPartPricingScale
-      ? "Loading..."
-      : "Saving...";
-
-    return (
-      <div className="flex-1 flex items-center justify-center">
-        <Loading message={t(translationKey, translationFallback)} />
-      </div>
-    );
-  }
+  const isDisabled = isSubmitting || isFetchingPartPricingScale;
 
   return (
     <>
@@ -80,67 +61,73 @@ export const AddPartPricingScaleForm: React.FC<
           id={FORM_IDS.MAIN_FORM}
           onSubmit={handleSubmit}
           autoComplete="off"
-          className="flex flex-col gap-4"
         >
-          <div>
-            <FBLabel
-              className="mb-2"
-              dataFbTestId={"part-pricing-scale-name-label"}
-              children={t("partPricingScales.formLabels.name", "Title") + " *"}
-              htmlFor="part-pricing-scale-name-input"
-            />
-            <FBInput
-              id="part-pricing-scale-name-input"
-              dataFbTestId="part-pricing-scale-name-input"
-              value={formData.name || ""}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                handleFieldChange("name", e.target.value);
-              }}
-              required
-            />
-          </div>
-
-          <FBLabel dataFbTestId={"part-pricing-scale-is-default-label"}>
-            <FBCheckbox
-              dataFbTestId="part-pricing-scale-is-default-checkbox"
-              onClick={() =>
-                handleFieldChange("isDefault", !formData.isDefault)
-              }
-              checked={formData.isDefault}
-            />
-            {t("partPricingScales.formLabels.isDefault", "Is Default")}
-          </FBLabel>
-
-          <FBRadioGroup defaultValue={CALCULATION_TYPES.MARKUP}>
-            <h5>
-              {t(
-                "partPricingScales.formLabels.calculateBasedOn",
-                "Calculate Based On"
-              )}
-              :
-            </h5>
-            <CalculationTypeRadioSelector
-              formData={formData}
-              handleFieldChange={handleFieldChange}
-            />
-          </FBRadioGroup>
-
-          <div className="grid grid-cols-6 gap-2 mt-2 py-2 border-2 rounded-lg">
-            <div className="col-span-3 font-bold ps-4">
-              {t("partPricingScales.formLabels.condition", "Condition")}
+          <fieldset className="flex flex-col gap-4" disabled={isDisabled}>
+            <div>
+              <FBLabel
+                className="mb-2"
+                dataFbTestId={"part-pricing-scale-name-label"}
+                children={
+                  t("partPricingScales.formLabels.name", "Title") + " *"
+                }
+                htmlFor="part-pricing-scale-name-input"
+              />
+              <FBInput
+                id="part-pricing-scale-name-input"
+                dataFbTestId="part-pricing-scale-name-input"
+                value={formData.name || ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  handleFieldChange("name", e.target.value);
+                }}
+                required
+              />
             </div>
-            <div className="col-span-2 font-bold text-end">
-              {formData.calculatedBasedOn === CALCULATION_TYPES.MARKUP
-                ? t("partPricingScales.formLabels.percent.markup", "Markup %")
-                : t("partPricingScales.formLabels.percent.margin", "Margin %")}
+
+            <FBLabel dataFbTestId={"part-pricing-scale-is-default-label"}>
+              <FBCheckbox
+                dataFbTestId="part-pricing-scale-is-default-checkbox"
+                onClick={() =>
+                  handleFieldChange("isDefault", !formData.isDefault)
+                }
+                checked={formData.isDefault}
+              />
+              {t("partPricingScales.formLabels.isDefault", "Is Default")}
+            </FBLabel>
+
+            <FBRadioGroup defaultValue={CALCULATION_TYPES.MARKUP}>
+              <h5>
+                {t(
+                  "partPricingScales.formLabels.calculateBasedOn",
+                  "Calculate Based On"
+                )}
+                :
+              </h5>
+              <CalculationTypeRadioSelector
+                formData={formData}
+                handleFieldChange={handleFieldChange}
+              />
+            </FBRadioGroup>
+
+            <div className="grid grid-cols-6 gap-2 mt-2 py-2 border-2 rounded-lg">
+              <div className="col-span-3 font-bold ps-4">
+                {t("partPricingScales.formLabels.condition", "Condition")}
+              </div>
+              <div className="col-span-2 font-bold text-end">
+                {formData.calculatedBasedOn === CALCULATION_TYPES.MARKUP
+                  ? t("partPricingScales.formLabels.percent.markup", "Markup %")
+                  : t(
+                      "partPricingScales.formLabels.percent.margin",
+                      "Margin %"
+                    )}
+              </div>
+              <div>&nbsp;</div>
+              <TierList
+                tiers={formData.tiers || []}
+                onUpdateTier={handleUpdateTier}
+                onRemoveTier={handleRemoveTier}
+              />
             </div>
-            <div>&nbsp;</div>
-            <TierList
-              tiers={formData.tiers || []}
-              onUpdateTier={handleUpdateTier}
-              onRemoveTier={handleRemoveTier}
-            />
-          </div>
+          </fieldset>
         </form>
 
         <AddTierForm
@@ -148,6 +135,7 @@ export const AddPartPricingScaleForm: React.FC<
           formData={formData}
           handleAddTier={handleAddTier}
           handleNewTierFieldChange={handleNewTierFieldChange}
+          isDisabled={isDisabled}
           newTierData={newTierData}
           refFieldNewTierMinAmount={refFieldNewTierMinAmount}
           refNewTierForm={refNewTierForm}
@@ -168,7 +156,7 @@ export const AddPartPricingScaleForm: React.FC<
           form={FORM_IDS.MAIN_FORM}
           dataFbTestId="submit-add-part-pricing-scale-form-button"
           type="submit"
-          disabled={formIsInvalid}
+          disabled={formIsInvalid || isDisabled}
         >
           {isSubmitting
             ? t("common.saving", "Saving...")
