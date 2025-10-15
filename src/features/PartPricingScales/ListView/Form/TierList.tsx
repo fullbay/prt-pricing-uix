@@ -31,7 +31,7 @@ const calculateConditionText = (
     if (minAmount === maxAmount) {
       conditionText = `$${minAmount}`;
     } else {
-      conditionText = `$${minAmount} to $${maxAmount}`;
+      conditionText = `$${minAmount} ${t("partPricingScales.formLabels.to", "to")} $${maxAmount}`;
     }
   }
   return conditionText;
