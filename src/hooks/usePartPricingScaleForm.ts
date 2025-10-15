@@ -69,7 +69,7 @@ export function usePartPricingScaleForm(
       setFormData(partPricingScale);
       refLoadedPartPricingScaleId.current = partPricingScaleId;
     } else if (
-      !partPricingScale &&
+      !partPricingScaleId &&
       refLoadedPartPricingScaleId.current !== null
     ) {
       setFormData(defaultFormData);
