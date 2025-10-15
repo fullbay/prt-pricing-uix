@@ -17,18 +17,29 @@ async function createPartPricingScale(
   return data.createPartPricingScale;
 }
 
-export function useCreatePartPricingScale() {
+export function useCreatePartPricingScaleMutation() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (variables: CreatePartPricingScaleMutationVariables) => {
       return createPartPricingScale(variables);
     },
-    onSuccess: () => {
+    onSuccess: (createdScale) => {
       // Invalidate and refetch the list of pricing scales
       queryClient.invalidateQueries({
         queryKey: ["partPricingScales", "list"],
       });
+
+      if (createdScale.isDefault) {
+        // Only invalidate OTHER scales (exclude newly created one)
+        queryClient.invalidateQueries({
+          queryKey: ["partPricingScales", "get"],
+          predicate: (query) => {
+            const queryId = query.queryKey[2];
+            return queryId !== createdScale.pricingScaleId;
+          },
+        });
+      }
     },
   });
 }
