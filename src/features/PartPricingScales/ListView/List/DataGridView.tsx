@@ -66,6 +66,7 @@ const DataGridView = ({ fetching, partPricingScales, refreshData }: Props) => {
               onClick={() =>
                 handleEditPartPricingScaleButtonClick(pricingScaleId)
               }
+              size="sm"
             >
               <FBIcon
                 iconName="pen-to-square"
