@@ -1,10 +1,10 @@
 import { FBButton, FBIcon, FBInput } from "@fullbay/forge";
-import { PartPricingScaleTier } from "@src/types/partPricingScales.ts";
+import { PricingTier } from "@src/graphql/generated/graphqlTypes.ts";
 import React from "react";
 import { useCallback } from "react";
 
 type TierListItemProps = {
-  tier: PartPricingScaleTier;
+  tier: PricingTier;
   index: number;
   isFirst: boolean;
   conditionText: string;
@@ -40,7 +40,8 @@ export const TierListItem: React.FC<TierListItemProps> = React.memo(
             step={0.01}
             required
             onChange={handleChange}
-            leftIcon={<FBIcon
+            leftIcon={
+              <FBIcon
                 iconName="percent"
                 ariaLabel="Percent Icon"
                 dataFbTestId={`part-pricing-scale-tier-percent-icon-${index}`}

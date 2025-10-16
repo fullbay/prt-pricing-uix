@@ -14,14 +14,14 @@ import {
   CALCULATION_TYPES,
   FORM_IDS,
 } from "@src/constants/partPricingScales.ts";
+import { PricingScale } from "@src/graphql/generated/graphqlTypes.ts";
 import { usePartPricingScaleForm } from "@src/hooks/usePartPricingScaleForm.ts";
-import { PartPricingScale } from "@src/types/partPricingScales.ts";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
 type AddPartPricingScaleFormProps = {
   partPricingScaleId: string | null;
-  onFormSuccess: (input: Partial<PartPricingScale>) => void;
+  onFormSuccess: (input: Partial<PricingScale>) => void;
 };
 
 export const AddPartPricingScaleForm: React.FC<

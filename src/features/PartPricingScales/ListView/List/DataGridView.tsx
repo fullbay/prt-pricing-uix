@@ -1,13 +1,13 @@
 import { AddPartPricingScaleSheet } from "@features/PartPricingScales/ListView/Form/AddPartPricingScaleSheet.tsx";
 import { FBButton, FBDatagrid, FBIcon } from "@fullbay/forge";
-import { PartPricingScale } from "@src/types/partPricingScales.ts";
+import { PricingScale } from "@src/graphql/generated/graphqlTypes.ts";
 import { ColumnDef } from "@tanstack/react-table";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
-  fetching: boolean,
-  partPricingScales: PartPricingScale[];
+  fetching: boolean;
+  partPricingScales: PricingScale[];
   refreshData: () => void;
 };
 
@@ -42,7 +42,7 @@ const DataGridView = ({ fetching, partPricingScales, refreshData }: Props) => {
     }
   }, []);
 
-  const columns: ColumnDef<PartPricingScale>[] = [
+  const columns: ColumnDef<PricingScale>[] = [
     {
       accessorKey: "name",
       header: t("partPricingScales.listColumns.name", "Title"),

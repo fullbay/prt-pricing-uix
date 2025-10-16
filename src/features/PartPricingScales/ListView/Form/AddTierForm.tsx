@@ -4,19 +4,19 @@ import {
   FORM_IDS,
 } from "@src/constants/partPricingScales.ts";
 import {
-  PartPricingScale,
-  PartPricingScaleTier,
-} from "@src/types/partPricingScales.ts";
+  PricingScale,
+  PricingTier,
+} from "@src/graphql/generated/graphqlTypes.ts";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
 type AddTierFormProps = {
   addTierFormIsInvalid: boolean;
-  formData: Partial<PartPricingScale>;
+  formData: Partial<PricingScale>;
   handleAddTier: (e: React.FormEvent<HTMLFormElement>) => void;
   handleNewTierFieldChange: (field: string, value: number) => void;
   isDisabled: boolean;
-  newTierData: PartPricingScaleTier;
+  newTierData: PricingTier;
   refFieldNewTierMinAmount: React.RefObject<HTMLInputElement | null>;
   refNewTierForm: React.RefObject<HTMLFormElement | null>;
 };

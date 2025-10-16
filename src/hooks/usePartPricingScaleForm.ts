@@ -3,16 +3,15 @@ import {
   PART_PRICING_STATE,
 } from "@src/constants/partPricingScales.ts";
 import {
+  CalculationMethod,
   CreatePartPricingScaleInput,
+  PricingScale,
+  PricingTier,
   UpdatePartPricingScaleInput,
 } from "@src/graphql/generated/graphqlTypes.ts";
 import { useCreatePartPricingScale } from "@src/hooks/CreatePartPricingScale/useCreatePartPricingScale.ts";
 import { useGetPartPricingScaleQuery } from "@src/hooks/GetPartPricingScale/useGetPartPricingScaleQuery.ts";
 import { useUpdatePartPricingScale } from "@src/hooks/UpdatePartPricingScale/useUpdatePartPricingScale.ts";
-import {
-  PartPricingScale,
-  PartPricingScaleTier,
-} from "@src/types/partPricingScales.ts";
 import { getErrorMessage } from "@src/utils/errorUtils.ts";
 import React, {
   useCallback,
@@ -22,10 +21,10 @@ import React, {
   useState,
 } from "react";
 
-const defaultFormData: Partial<PartPricingScale> = {
+const defaultFormData: Partial<PricingScale> = {
   name: "",
   isDefault: false,
-  calculatedBasedOn: CALCULATION_TYPES.MARKUP,
+  calculatedBasedOn: CALCULATION_TYPES.MARKUP as CalculationMethod,
   tiers: [
     {
       minAmount: 0,
@@ -34,21 +33,21 @@ const defaultFormData: Partial<PartPricingScale> = {
   ],
 };
 
-const defaultNewTierData: PartPricingScaleTier = {
+const defaultNewTierData: PricingTier = {
   minAmount: 0,
   percent: 0,
 };
 
 export function usePartPricingScaleForm(
-  onSubmit: (data: Partial<PartPricingScale>) => void,
+  onSubmit: (data: Partial<PricingScale>) => void,
   partPricingScaleId: string | null
 ) {
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] =
-    useState<Partial<PartPricingScale>>(defaultFormData);
+    useState<Partial<PricingScale>>(defaultFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [newTierData, setNewTierData] =
-    useState<PartPricingScaleTier>(defaultNewTierData);
+    useState<PricingTier>(defaultNewTierData);
 
   const { createPartPricingScale } = useCreatePartPricingScale();
   const { data: partPricingScale, isFetching: isFetchingPartPricingScale } =
