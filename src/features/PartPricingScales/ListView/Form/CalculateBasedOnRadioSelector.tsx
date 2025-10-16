@@ -14,7 +14,7 @@ type CalculationTypeRadioSelectorProps = {
   handleFieldChange: (field: keyof PricingScale, value: string) => void;
 };
 
-export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelectorProps> =
+export const CalculateBasedOnRadioSelector: React.FC<CalculationTypeRadioSelectorProps> =
   React.memo(({ formData, handleFieldChange }) => {
     const { t } = useTranslation();
 
@@ -49,4 +49,4 @@ export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelector
     });
   });
 
-CalculationTypeRadioSelector.displayName = "CalculationTypeRadioSelector";
+CalculateBasedOnRadioSelector.displayName = "CalculateBasedOnRadioSelector";

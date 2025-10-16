@@ -45,6 +45,8 @@ export function usePartPricingScaleForm(
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] =
     useState<Partial<PricingScale>>(defaultFormData);
+  const [originalFormData, setOriginalFormData] =
+    useState<Partial<PricingScale>>(defaultFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [newTierData, setNewTierData] =
     useState<PricingTier>(defaultNewTierData);
@@ -66,12 +68,14 @@ export function usePartPricingScaleForm(
       refLoadedPartPricingScaleId.current !== partPricingScaleId
     ) {
       setFormData(partPricingScale);
+      setOriginalFormData(partPricingScale);
       refLoadedPartPricingScaleId.current = partPricingScaleId;
     } else if (
       !partPricingScaleId &&
       refLoadedPartPricingScaleId.current !== null
     ) {
       setFormData(defaultFormData);
+      setOriginalFormData(defaultFormData);
       refLoadedPartPricingScaleId.current = null;
     }
   }, [partPricingScale, partPricingScaleId]);
@@ -122,6 +126,24 @@ export function usePartPricingScaleForm(
     []
   );
 
+  const handleIsDefaultChange = useCallback(() => {
+    setFormData((prev) => {
+      const isDefault = !prev.isDefault;
+      const newState = {
+        ...prev,
+        isDefault,
+      };
+
+      if (isDefault && prev.state !== PART_PRICING_STATE.ACTIVE) {
+        newState.state = PART_PRICING_STATE.ACTIVE;
+      } else if (!isDefault && prev.state !== originalFormData.state) {
+        newState.state = originalFormData.state || PART_PRICING_STATE.ACTIVE;
+      }
+
+      return newState;
+    });
+  }, [originalFormData]);
+
   const handleNewTierFieldChange = useCallback(
     (field: string, value: number) => {
       setNewTierData((prev) => ({ ...prev, [field]: value }));
@@ -165,7 +187,7 @@ export function usePartPricingScaleForm(
             isDefault: formData.isDefault!,
             calculatedBasedOn:
               formData.calculatedBasedOn! as CreatePartPricingScaleInput["calculatedBasedOn"],
-            state: PART_PRICING_STATE.ACTIVE,
+            state: formData.state || PART_PRICING_STATE.ACTIVE,
             tiers: formData.tiers!,
           };
 
@@ -203,6 +225,7 @@ export function usePartPricingScaleForm(
     formIsInvalid,
     handleAddTier,
     handleFieldChange,
+    handleIsDefaultChange,
     handleNewTierFieldChange,
     handleRemoveTier,
     handleSubmit,
@@ -210,6 +233,7 @@ export function usePartPricingScaleForm(
     isFetchingPartPricingScale,
     isSubmitting,
     newTierData,
+    originalFormData,
     refFieldNewTierMinAmount,
     refNewTierForm,
   };

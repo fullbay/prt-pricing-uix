@@ -1,8 +1,10 @@
 import { AddTierForm } from "@features/PartPricingScales/ListView/Form/AddTierForm.tsx";
-import { CalculationTypeRadioSelector } from "@features/PartPricingScales/ListView/Form/CalculationTypeRadioSelector.tsx";
+import { CalculateBasedOnRadioSelector } from "@features/PartPricingScales/ListView/Form/CalculateBasedOnRadioSelector.tsx";
+import { StateRadioSelector } from "@features/PartPricingScales/ListView/Form/StateRadioSelector.tsx";
 import { TierList } from "@features/PartPricingScales/ListView/Form/TierList.tsx";
 import {
   FBButton,
+  FBCard,
   FBCheckbox,
   FBInput,
   FBLabel,
@@ -13,6 +15,7 @@ import {
 import {
   CALCULATION_TYPES,
   FORM_IDS,
+  PART_PRICING_STATE,
 } from "@src/constants/partPricingScales.ts";
 import { PricingScale } from "@src/graphql/generated/graphqlTypes.ts";
 import { usePartPricingScaleForm } from "@src/hooks/usePartPricingScaleForm.ts";
@@ -36,6 +39,7 @@ export const AddPartPricingScaleForm: React.FC<
     formIsInvalid,
     handleAddTier,
     handleFieldChange,
+    handleIsDefaultChange,
     handleNewTierFieldChange,
     handleRemoveTier,
     handleSubmit,
@@ -43,6 +47,7 @@ export const AddPartPricingScaleForm: React.FC<
     isFetchingPartPricingScale,
     isSubmitting,
     newTierData,
+    originalFormData,
     refFieldNewTierMinAmount,
     refNewTierForm,
   } = usePartPricingScaleForm(onFormSuccess, partPricingScaleId);
@@ -52,9 +57,12 @@ export const AddPartPricingScaleForm: React.FC<
   return (
     <>
       {errorMessage && (
-        <div className="mx-4 p-3 border rounded-md text-destructive text-sm">
+        <FBCard
+          className="mx-4 p-3 text-destructive text-sm"
+          dataFbTestId="part-pricing-scale-error-message"
+        >
           {errorMessage}
-        </div>
+        </FBCard>
       )}
       <div className="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
         <form
@@ -86,13 +94,25 @@ export const AddPartPricingScaleForm: React.FC<
             <FBLabel dataFbTestId={"part-pricing-scale-is-default-label"}>
               <FBCheckbox
                 dataFbTestId="part-pricing-scale-is-default-checkbox"
-                onClick={() =>
-                  handleFieldChange("isDefault", !formData.isDefault)
-                }
+                onClick={handleIsDefaultChange}
                 checked={formData.isDefault}
+                disabled={originalFormData.isDefault}
               />
               {t("partPricingScales.formLabels.isDefault", "Is Default")}
             </FBLabel>
+
+            {partPricingScaleId && (
+              <FBRadioGroup
+                defaultValue={PART_PRICING_STATE.ACTIVE}
+                disabled={formData.isDefault}
+              >
+                <h5>{t("partPricingScales.formLabels.state", "Status")}:</h5>
+                <StateRadioSelector
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                />
+              </FBRadioGroup>
+            )}
 
             <FBRadioGroup defaultValue={CALCULATION_TYPES.MARKUP}>
               <h5>
@@ -102,13 +122,16 @@ export const AddPartPricingScaleForm: React.FC<
                 )}
                 :
               </h5>
-              <CalculationTypeRadioSelector
+              <CalculateBasedOnRadioSelector
                 formData={formData}
                 handleFieldChange={handleFieldChange}
               />
             </FBRadioGroup>
 
-            <div className="grid grid-cols-6 gap-2 mt-2 py-2 border-2 rounded-lg">
+            <FBCard
+              className="grid grid-cols-6 gap-2 mt-2 py-2"
+              dataFbTestId="part-pricing-scale-conditions"
+            >
               <div className="col-span-3 font-bold ps-4">
                 {t("partPricingScales.formLabels.condition", "Condition")}
               </div>
@@ -126,7 +149,7 @@ export const AddPartPricingScaleForm: React.FC<
                 onUpdateTier={handleUpdateTier}
                 onRemoveTier={handleRemoveTier}
               />
-            </div>
+            </FBCard>
           </fieldset>
         </form>
 

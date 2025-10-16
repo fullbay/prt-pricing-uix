@@ -20,3 +20,9 @@ export const PART_PRICING_STATE = {
   ARCHIVED: "archived",
   DELETED: "deleted",
 } as const satisfies Record<string, PricingState>;
+
+export const PART_PRICING_STATE_DISPLAY = {
+  [PART_PRICING_STATE.ACTIVE]: "Active",
+  [PART_PRICING_STATE.ARCHIVED]: "Archived",
+  [PART_PRICING_STATE.DELETED]: "Deleted",
+};
