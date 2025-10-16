@@ -1,5 +1,4 @@
-import FBInputWithStartIcon from "@components/FBInputWithStartIcon.tsx";
-import { FBButton, FBIcon } from "@fullbay/forge";
+import { FBButton, FBIcon, FBInput } from "@fullbay/forge";
 import { PartPricingScaleTier } from "@src/types/partPricingScales.ts";
 import React from "react";
 import { useCallback } from "react";
@@ -31,7 +30,7 @@ export const TierListItem: React.FC<TierListItemProps> = React.memo(
         <hr className="col-span-6" />
         <div className="col-span-3 content-center ps-4">{conditionText}</div>
         <div className="col-span-2">
-          <FBInputWithStartIcon
+          <FBInput
             className="text-end"
             type="number"
             id={`part-pricing-scale-tier-percent-${index}`}
@@ -41,8 +40,7 @@ export const TierListItem: React.FC<TierListItemProps> = React.memo(
             step={0.01}
             required
             onChange={handleChange}
-            icon={
-              <FBIcon
+            leftIcon={<FBIcon
                 iconName="percent"
                 ariaLabel="Percent Icon"
                 dataFbTestId={`part-pricing-scale-tier-percent-icon-${index}`}
@@ -61,7 +59,7 @@ export const TierListItem: React.FC<TierListItemProps> = React.memo(
               <FBIcon
                 ariaLabel="Remove Tier"
                 dataFbTestId={`part-pricing-scale-tier-remove-icon-${index}`}
-                iconName="delete"
+                iconName="trash-can"
               />
             </FBButton>
           )}

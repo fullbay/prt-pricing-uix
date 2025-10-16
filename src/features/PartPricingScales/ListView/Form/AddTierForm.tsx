@@ -1,5 +1,4 @@
-import FBInputWithStartIcon from "@components/FBInputWithStartIcon.tsx";
-import { FBButton, FBIcon, FBLabel } from "@fullbay/forge";
+import { FBButton, FBIcon, FBInput, FBLabel } from "@fullbay/forge";
 import {
   CALCULATION_TYPES,
   FORM_IDS,
@@ -56,7 +55,7 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
               {t("partPricingScales.formLabels.minAmount", "Minimum Amount") +
                 " *"}
             </FBLabel>
-            <FBInputWithStartIcon
+            <FBInput
               className="text-end"
               type="number"
               id="part-pricing-scale-tier-min-amount-input"
@@ -67,9 +66,9 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 handleNewTierFieldChange("minAmount", Number(e.target.value));
               }}
-              icon={
+              leftIcon={
                 <FBIcon
-                  iconName="dollar"
+                  iconName="dollar-sign"
                   ariaLabel="Dollar Icon"
                   dataFbTestId={"part-pricing-scale-tier-min-amount-icon"}
                 />
@@ -91,7 +90,7 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
                   )}{" "}
               *
             </FBLabel>
-            <FBInputWithStartIcon
+            <FBInput
               className="text-end"
               type="number"
               id="part-pricing-scale-tier-percent-input"
@@ -102,7 +101,7 @@ export const AddTierForm: React.FC<AddTierFormProps> = ({
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 handleNewTierFieldChange("percent", Number(e.target.value));
               }}
-              icon={
+              leftIcon={
                 <FBIcon
                   iconName="percent"
                   ariaLabel="Percent Icon"

@@ -7,7 +7,7 @@ export const useListPartPricingScales = (
   cursor?: string,
   state?: PricingState
 ) => {
-  const { data, isLoading, error, refetch } = useListPartPricingScalesQuery(
+  const { data, isFetching, isLoading, error, refetch } = useListPartPricingScalesQuery(
     limit,
     cursor,
     state
@@ -15,6 +15,7 @@ export const useListPartPricingScales = (
 
   return {
     partPricingScales: data || [],
+    fetching: isFetching,
     loading: isLoading,
     error,
     refetch,
