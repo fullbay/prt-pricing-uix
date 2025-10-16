@@ -20,10 +20,10 @@ export default defineConfig(({ mode }) => {
       ...(!isTest
         ? [
             federation({
-              name: "temp",
-              filename: "fullbay-mf-maincomponent.js",
+              name: "partpricing",
+              filename: "fullbay-mf-partpricing.js",
               exposes: {
-                "./MyComponent": "./src/entryPoints/partPricingScales.tsx",
+                "./MyComponent": "./src/entryPoints/PartPricingScales.tsx",
               },
               shared: {
                 react: { singleton: true },
