@@ -7,7 +7,8 @@ const ListView = () => {
   const { t } = useTranslation();
 
   // accountId is now taken from env inside the hook
-  const { partPricingScales, loading, fetching, refetch } = useListPartPricingScales();
+  const { partPricingScales, loading, fetching, refetch } =
+    useListPartPricingScales();
 
   if (loading) {
     return (
@@ -18,7 +19,11 @@ const ListView = () => {
   }
 
   return (
-    <DataGridView partPricingScales={partPricingScales} refreshData={refetch} fetching={fetching} />
+    <DataGridView
+      partPricingScales={partPricingScales}
+      refreshData={refetch}
+      fetching={fetching}
+    />
   );
 };
 

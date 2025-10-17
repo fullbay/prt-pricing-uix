@@ -1,13 +1,17 @@
 import { AddPartPricingScaleSheet } from "@features/PartPricingScales/ListView/Form/AddPartPricingScaleSheet.tsx";
 import { FBButton, FBDatagrid, FBIcon } from "@fullbay/forge";
-import { PartPricingScale } from "@src/types/partPricingScales.ts";
+import { PART_PRICING_STATE_DISPLAY } from "@src/constants/partPricingScales.ts";
+import {
+  PricingScale,
+  PricingState,
+} from "@src/graphql/generated/graphqlTypes.ts";
 import { ColumnDef } from "@tanstack/react-table";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
-  fetching: boolean,
-  partPricingScales: PartPricingScale[];
+  fetching: boolean;
+  partPricingScales: PricingScale[];
   refreshData: () => void;
 };
 
@@ -42,46 +46,60 @@ const DataGridView = ({ fetching, partPricingScales, refreshData }: Props) => {
     }
   }, []);
 
-  const columns: ColumnDef<PartPricingScale>[] = [
-    {
-      accessorKey: "name",
-      header: t("partPricingScales.listColumns.name", "Title"),
-    },
-    {
-      accessorKey: "isDefault",
-      header: t("partPricingScales.listColumns.isDefault", "Is Default"),
-      cell: (info) =>
-        info.getValue() ? t("common.yes", "Yes") : t("common.no", "No"),
-    },
-    {
-      accessorKey: "pricingScaleId",
-      header: "",
-      cell: (info) => {
-        const pricingScaleId = info.getValue() as string;
-        return (
-          <div className="text-right">
-            <FBButton
-              dataFbTestId={`edit-part-pricing-scale-btn-${pricingScaleId}`}
-              variant="default"
-              onClick={() =>
-                handleEditPartPricingScaleButtonClick(pricingScaleId)
-              }
-              size="sm"
-            >
-              <FBIcon
-                iconName="pen-to-square"
-                ariaLabel={t(
-                  "partPricingScales.edit",
-                  "Edit Part Pricing Scale"
-                )}
-                dataFbTestId="edit-part-pricing-scale-icon"
-              />
-            </FBButton>
-          </div>
-        );
+  const columns = useMemo<ColumnDef<PricingScale>[]>(
+    () => [
+      {
+        accessorKey: "name",
+        header: t("partPricingScales.listColumns.name", "Title"),
       },
-    },
-  ];
+      {
+        accessorKey: "isDefault",
+        header: t("partPricingScales.listColumns.isDefault", "Is Default"),
+        cell: (info) =>
+          info.getValue() ? t("common.yes", "Yes") : t("common.no", "No"),
+      },
+      {
+        accessorKey: "state",
+        header: t("partPricingScales.listColumns.state", "Status"),
+        cell: (info) => {
+          const stateValue = info.getValue() as PricingState;
+          return t(
+            `partPricingScales.statusValues.${stateValue}`,
+            PART_PRICING_STATE_DISPLAY[stateValue]
+          );
+        },
+      },
+      {
+        accessorKey: "pricingScaleId",
+        header: "",
+        cell: (info) => {
+          const pricingScaleId = info.getValue() as string;
+          return (
+            <div className="text-right">
+              <FBButton
+                dataFbTestId={`edit-part-pricing-scale-btn-${pricingScaleId}`}
+                variant="ghost"
+                onClick={() =>
+                  handleEditPartPricingScaleButtonClick(pricingScaleId)
+                }
+                size="sm"
+              >
+                <FBIcon
+                  iconName="pen-to-square"
+                  ariaLabel={t(
+                    "partPricingScales.edit",
+                    "Edit Part Pricing Scale"
+                  )}
+                  dataFbTestId="edit-part-pricing-scale-icon"
+                />
+              </FBButton>
+            </div>
+          );
+        },
+      },
+    ],
+    [handleEditPartPricingScaleButtonClick, t]
+  );
 
   return (
     <>

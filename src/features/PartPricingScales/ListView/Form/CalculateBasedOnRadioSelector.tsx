@@ -3,18 +3,18 @@ import {
   CALCULATION_TYPES,
   CALCULATION_TYPES_DISPLAY,
 } from "@src/constants/partPricingScales.ts";
-import { PartPricingScale } from "@src/types/partPricingScales.ts";
+import { PricingScale } from "@src/graphql/generated/graphqlTypes.ts";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 const CALCULATION_TYPE_ENTRIES = Object.entries(CALCULATION_TYPES);
 
 type CalculationTypeRadioSelectorProps = {
-  formData: Partial<PartPricingScale>;
-  handleFieldChange: (field: keyof PartPricingScale, value: string) => void;
+  formData: Partial<PricingScale>;
+  handleFieldChange: (field: keyof PricingScale, value: string) => void;
 };
 
-export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelectorProps> =
+export const CalculateBasedOnRadioSelector: React.FC<CalculationTypeRadioSelectorProps> =
   React.memo(({ formData, handleFieldChange }) => {
     const { t } = useTranslation();
 
@@ -49,4 +49,4 @@ export const CalculationTypeRadioSelector: React.FC<CalculationTypeRadioSelector
     });
   });
 
-CalculationTypeRadioSelector.displayName = "CalculationTypeRadioSelector";
+CalculateBasedOnRadioSelector.displayName = "CalculateBasedOnRadioSelector";

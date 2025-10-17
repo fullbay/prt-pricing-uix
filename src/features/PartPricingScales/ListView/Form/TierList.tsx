@@ -1,20 +1,20 @@
 import { TierListItem } from "@features/PartPricingScales/ListView/Form/TierListItem.tsx";
-import { PartPricingScaleTier } from "@src/types/partPricingScales.ts";
+import { PricingTier } from "@src/graphql/generated/graphqlTypes.ts";
 import { formatNumberForDisplay, subtractNumbers } from "@src/utils/numbers.ts";
 import { TFunction } from "i18next";
 import React, { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 type TiersListProps = {
-  tiers: PartPricingScaleTier[];
+  tiers: PricingTier[];
   onUpdateTier: (index: number, percent: number) => void;
   onRemoveTier: (index: number) => void;
 };
 
 const calculateConditionText = (
   t: TFunction<"translation", undefined>,
-  currentTier: PartPricingScaleTier,
-  nextTier?: PartPricingScaleTier
+  currentTier: PricingTier,
+  nextTier?: PricingTier
 ): string => {
   let conditionText;
 
@@ -61,7 +61,7 @@ export const TierList: React.FC<TiersListProps> = React.memo(
 
     return (
       <>
-        {sortedTiers.map((tier, index, arr: PartPricingScaleTier[]) => {
+        {sortedTiers.map((tier, index, arr: PricingTier[]) => {
           return (
             <TierListItem
               key={tier.minAmount}
