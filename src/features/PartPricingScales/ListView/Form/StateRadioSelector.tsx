@@ -25,31 +25,31 @@ export const StateRadioSelector: React.FC<StateRadioSelectorProps> = React.memo(
       [handleFieldChange]
     );
 
-    return PART_PRICING_STATE_ENTRIES.map(([key, state]) => {
-      // Not displaying an option to select "Deleted" for now
-      if (state === PART_PRICING_STATE.DELETED) {
-        return null;
-      }
-
-      return (
-        <div className="flex items-center gap-3" key={key}>
-          <FBRadioGroupItem
-            value={state}
-            checked={formData.state === state}
-            onClick={onStateClick}
-            id={`part-pricing-scale-state-${state}-checkbox`}
-          />
-          <FBLabel htmlFor={`part-pricing-scale-state-${state}-checkbox`}>
-            {t(
-              `partPricingScales.statusValues.${state}`,
-              PART_PRICING_STATE_DISPLAY[
-                state as keyof typeof PART_PRICING_STATE_DISPLAY
-              ]
-            )}
-          </FBLabel>
-        </div>
-      );
-    });
+    return (
+      PART_PRICING_STATE_ENTRIES
+        // Not displaying an option to select "Deleted" for now
+        .filter(([, state]) => state !== PART_PRICING_STATE.DELETED)
+        .map(([key, state]) => {
+          return (
+            <div className="flex items-center gap-3" key={key}>
+              <FBRadioGroupItem
+                value={state}
+                checked={formData.state === state}
+                onClick={onStateClick}
+                id={`part-pricing-scale-state-${state}-checkbox`}
+              />
+              <FBLabel htmlFor={`part-pricing-scale-state-${state}-checkbox`}>
+                {t(
+                  `partPricingScales.statusValues.${state}`,
+                  PART_PRICING_STATE_DISPLAY[
+                    state as keyof typeof PART_PRICING_STATE_DISPLAY
+                  ]
+                )}
+              </FBLabel>
+            </div>
+          );
+        })
+    );
   }
 );
 

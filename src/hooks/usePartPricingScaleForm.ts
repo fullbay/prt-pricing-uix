@@ -142,7 +142,7 @@ export function usePartPricingScaleForm(
 
       return newState;
     });
-  }, [originalFormData]);
+  }, [originalFormData.state]);
 
   const handleNewTierFieldChange = useCallback(
     (field: string, value: number) => {
