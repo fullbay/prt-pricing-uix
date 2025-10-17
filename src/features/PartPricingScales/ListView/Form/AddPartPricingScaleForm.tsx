@@ -103,7 +103,7 @@ export const AddPartPricingScaleForm: React.FC<
 
             {partPricingScaleId && (
               <FBRadioGroup
-                value={PART_PRICING_STATE.ACTIVE}
+                value={formData.state || PART_PRICING_STATE.ACTIVE}
                 disabled={formData.isDefault}
               >
                 <h5>{t("partPricingScales.formLabels.state", "Status")}:</h5>
@@ -114,7 +114,9 @@ export const AddPartPricingScaleForm: React.FC<
               </FBRadioGroup>
             )}
 
-            <FBRadioGroup value={CALCULATION_TYPES.MARKUP}>
+            <FBRadioGroup
+              value={formData.calculatedBasedOn || CALCULATION_TYPES.MARKUP}
+            >
               <h5>
                 {t(
                   "partPricingScales.formLabels.calculateBasedOn",
